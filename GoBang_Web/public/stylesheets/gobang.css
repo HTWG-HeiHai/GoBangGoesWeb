@@ -1,0 +1,28 @@
+.field {
+
+}
+
+.token {
+	display: inline-block;
+	width: 42px;
+	height: 42px;
+	position: relative;
+	bottom: 2px;
+	border-radius: 10px;
+	border-style: double;
+	border-color: gray;
+}
+
+.token none {
+
+}
+
+.token .black {
+	background-color: #101010;
+}
+
+.token .blue {
+	background-color: #072249;
+}
+
+//background-image: url(redfoil.jpg); for textures

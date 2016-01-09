@@ -1,0 +1,17 @@
+@(title: String)
+<!DOCTYPE html>
+<html ng-app>
+    <head>
+        <title>@title</title>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js"></script>
+    </head>
+    <body>
+        This is the startpage of our game.
+        <br><br>
+        Name:<input ng-model="name" type="text"/>
+        <br><br>
+        Hello {{name}}, <a href="./gobang/game">click here</a> to start.
+        <br>
+        Or <a href="/gobang.html ">click here</a> for the <i>Angular.js</i> version.
+    </body>
+</html>

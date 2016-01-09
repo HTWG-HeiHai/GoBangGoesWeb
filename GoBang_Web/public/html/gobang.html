@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html ng-app="goBangApp" lang="en">
+<head>
+<title>GoBang</title>
+<link rel="stylesheet" href="/gobang.css">
+
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script
+	src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.min.js"></script>
+<script
+	src="http:////ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/gobang_ng.js"></script>
+</head>
+<body ng-controller="GoBangCtrl">
+
+	<!-- 	<nav class="navbar navbar-default" role="navigation"> -->
+	<!-- 		<!-- Brand and toggle get grouped for better mobile display -->
+	<!-- 		<div class="navbar-header"> -->
+	<!-- 			<button type="button" class="navbar-toggle" data-toggle="collapse" -->
+	<!-- 				data-target="#bs-example-navbar-collapse-1"> -->
+	<!-- 				<span class="sr-only">Toggle navigation</span> <span -->
+	<!-- 					class="icon-bar"></span> <span class="icon-bar"></span> <span -->
+	<!-- 					class="icon-bar"></span> -->
+	<!-- 			</button> -->
+	<!-- 		</div> -->
+
+	<!-- 		<!-- Collect the nav links, forms, and other content for toggling -->
+	<!-- 		<div class="collapse navbar-collapse" -->
+	<!-- 			id="bs-example-navbar-collapse-1"> -->
+	<!-- 			<ul class="nav navbar-nav"> -->
+	<!-- 				<li class="dropdown"><a href="#" class="dropdown-toggle" -->
+	<!-- 					data-toggle="dropdown">File <b class="caret"></b></a> -->
+	<!-- 					<ul class="dropdown-menu"> -->
+	<!-- 						<li ng-click='command("n")'>New</li> -->
+	<!-- 						<li class="divider"></li> -->
+	<!-- 						<li><a href="#">Save</a></li> -->
+	<!-- 						<li><a href="#">Load</a></li> -->
+	<!-- 						<li class="divider"></li> -->
+	<!-- 						<li><a href="#">Quit</a></li> -->
+	<!-- 					</ul></li> -->
+
+	<!-- 				<li class="dropdown"><a href="#" class="dropdown-toggle" -->
+	<!-- 					data-toggle="dropdown">Edit <b class="caret"></b></a> -->
+	<!-- 					<ul class="dropdown-menu"> -->
+	<!-- 						<li ng-click='command("z")'>Undo</li> -->
+	<!-- 						<li ng-click='command("y")'>Redo</li> -->
+	<!-- 						<li class="divider"></li> -->
+	<!-- 						<li ng-click='command("c")'>Copy</li> -->
+	<!-- 						<li ng-click='command("v")'>Paste</li> -->
+	<!-- 					</ul></li> -->
+
+	<!-- 				<li class="dropdown"><a href="#" class="dropdown-toggle" -->
+	<!-- 					data-toggle="dropdown">Solve <b class="caret"></b></a> -->
+	<!-- 					<ul class="dropdown-menu"> -->
+	<!-- 						<li ng-click='command("s")'>Solve</li> -->
+	<!-- 					</ul></li> -->
+
+	<!-- 				<li class="dropdown"><a href="#" class="dropdown-toggle" -->
+	<!-- 					data-toggle="dropdown">Highlight <b class="caret"></b></a> -->
+	<!-- 					<ul class="dropdown-menu"> -->
+	<!-- 						<li ng-click='command("0")'>none</li> -->
+	<!-- 						<li ng-repeat="highlight in [1,2,3,4,5,6,7,8,9]" -->
+	<!-- 							ng-click='command("{{highlight}}")'>{{highlight}}</li>} -->
+	<!-- 					</ul></li> -->
+
+	<!-- 				<li class="dropdown"><a href="#" class="dropdown-toggle" -->
+	<!-- 					data-toggle="dropdown">Options <b class="caret"></b></a> -->
+	<!-- 					<ul class="dropdown-menu"> -->
+	<!-- 						<li ng-click='command("#")'>toggle show Candidates</li> -->
+	<!-- 						<li ng-click='command("*")'>Resize to 9*9</li> -->
+	<!-- 						<li ng-click='command("+")'>Resize to 4*4</li> -->
+	<!-- 						<li ng-click='command("-")'>Resize to 1*1</li> -->
+	<!-- 					</ul></li> -->
+	<!-- 			</ul> -->
+	<!-- 		</div> -->
+	<!-- 		<!-- /.navbar-collapse -->
+	<!-- 	</nav> -->
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/gobang">GoBang!</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="#" ng-click='command("newgame")'>New Game</a></li>
+					<li><a id="new_round" href="#" ng-click='command("newround")'>New Round</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">Options <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Action</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">Separated link</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">One more separated link</a></li>
+						</ul></li>
+					<li><a href="#">Help</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+	<div class="row">
+		<div class="col-md-2">
+			Player 1<br> {{p1wins}} Wins Status: {{status}}
+		</div>
+
+		<div class="col-md-8">
+			<gobang-field>X</gobang-field>
+		</div>
+
+		<!--     		<div class="statusline">Status: {{statusmessage}}</div>   -->
+
+		<div class="col-md-2">
+			Player 2<br> {{p2wins}} Wins
+		</div>
+	</div>
+</body>
+</html>

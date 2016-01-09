@@ -1,0 +1,25 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.gobang()
+
+GET		/gobang/game				controllers.Application.game()
+GET		/gobang						controllers.Application.gobang()
+GET		/websocket					controllers.Application.webSocket()
+
+GET     /json/set/:x/:y		    	controllers.Application.setToken(x: Int, y: Int)
+GET     /json/newround		    	controllers.Application.newRound()
+GET     /json/newgame		    	controllers.Application.newGame()
+GET 	/json/field 				controllers.Application.getJson()
+
+GET     /gobang.html                controllers.Assets.at(path="/public/html", file="gobang.html")
+GET     /gobang_ng.js     			controllers.Assets.at(path="/public/javascripts", file="gobang_ng.js")
+GET     /gobang.css                 controllers.Assets.at(path="/public/stylesheets", file="gobang.css")
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /javascripts/*file          controllers.Assets.at(path="/public/javascripts", file)
+GET     /images/*file               controllers.Assets.at(path="/public/images", file)
+GET     /html/*file                 controllers.Assets.at(path="/public/html", file)

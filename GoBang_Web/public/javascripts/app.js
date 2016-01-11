@@ -1,6 +1,6 @@
 $(function() {
 	
-	Server = new FancyWebSocket('ws://127.0.0.1:9000/websocket');
+	Server = new FancyWebSocket('ws://' + location.host + '/websocket');
 
 	$('.btn-lg').click(function() {
 		command(this.id);
@@ -31,28 +31,10 @@ $(function() {
 });
 
 var changeField = function(x, y) {
-	//alert(x + "," +y);
-//	$.ajax({
-//		type: "GET",
-//		url: "/gobang/set/" + x + "/" + y,
-//		data: {
-//			'action': 'get',
-//			'message': x + y
-//		},
-//		dataType: "json",
-//		success: function() {
-//			updateField(x + "_" + y);
-//		},
-//	});
+
 };
 
 var Server;
-
-//function checkField(source) {
-//	jsonSource = {"command": source};
-////	console.log(JSON.stringify(jsonSource));
-//	Server.send('setField', JSON.stringify(jsonSource));
-//};
 
 function command(command) {
 	jsonCommand = {"command": command};

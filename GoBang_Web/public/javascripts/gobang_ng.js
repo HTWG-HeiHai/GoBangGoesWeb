@@ -43,19 +43,5 @@ goBangApp.controller('GoBangCtrl', function($scope, $http) {
 				$scope.status = data.status
 			});
 		}
-		// $scope.candidateclicked = function( row, column, value) {
-		// if (value >0) {
-		// $http.get('/json/'+row+'/'+column+'/'+value).success(function(data) {
-		// $scope.size = data.size;
-		// $scope.grid = data.grid;
-		// });
-		// }
-		// }
-		// $scope.command = function( command) {
-		// $http.get('/json/'+command).success(function(data) {
-		// $scope.size = data.size;
-		// $scope.grid = data.grid;
-		// });
-		// }
 	});
 });

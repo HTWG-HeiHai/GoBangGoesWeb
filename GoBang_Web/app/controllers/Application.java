@@ -41,7 +41,19 @@ public class Application extends Controller {
 	}
 
 	public Result gobang() {
-		return ok(gobang.render("GoBang"));
+		return ok(gobang.render("GoBang", gobangMain.render()));
+	}
+	
+	public Result gobang_game(){
+	    return ok(gobang.render("GoBang", gobangGame.render()));
+	}
+
+	public Result gobang_help(){
+	    return ok(gobang.render("GoBang", gobangHelp.render()));
+	}
+
+	public Result gobang_about(){
+	    return ok(gobang.render("GoBang", gobangAbout.render()));
 	}
 
 	public void channel(WebSocket.Out<JsonNode> out, JsonNode field) {

@@ -1,17 +1,33 @@
-@(title: String)
+@(title: String)(content: Html)
 <!DOCTYPE html>
 <html ng-app>
     <head>
         <title>@title</title>
         <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js"></script>
+        <link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    </script>
+    <script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     </head>
     <body>
-        This is the startpage of our game.
-        <br><br>
-        Name:<input ng-model="name" type="text"/>
-        <br><br>
-        Hello {{name}}, <a href="./gobang/game">click here</a> to start.
-        <br>
-        Or <a href="/gobang.html ">click here</a> for the <i>Angular.js</i> version.
+        <div class="row">
+            <div class=col-md-3>
+                <img src="images/gobang.jpg" alt="GoBang logo">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li role="presentation" class="active"><a href="gobang">Home</a></li>
+                            <li role="presentation"><a href="game">Game</a></li>
+                            <li role="presentation"><a href="help">Help</a></li>
+                            <li role="presentation"><a href="about">About</a></li>
+                        </ul>
+            </div>
+            <div class="col-md-8">
+                @content
+            </div>
+        <div>
     </body>
 </html>

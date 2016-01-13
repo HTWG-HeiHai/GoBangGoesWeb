@@ -13,6 +13,13 @@ import play.mvc.WebSocket;
 import play.libs.F.Callback0;
 import play.libs.F.Callback;
 
+import securesocial.core.BasicProfile;
+import securesocial.core.RuntimeEnvironment;
+import securesocial.core.java.SecureSocial;
+import securesocial.core.java.SecuredAction;
+import securesocial.core.java.UserAwareAction;
+import service.DemoUser;
+
 import java.io.File;
 
 import com.fasterxml.jackson.databind.*;
@@ -28,7 +35,9 @@ public class Application extends Controller {
 	TUI printer;
 	char lastAction = 'n';
 
+	@SecuredAction
 	public Result game() {
+		DemoUser user = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
 		games = GoBangGame.getInstance();
 		controller = games.getController();
 		printer = games.getTui();
@@ -56,7 +65,7 @@ public class Application extends Controller {
 	    return ok(gobang.render("GoBang", gobangAbout.render(), "4"));
 	}
 
-	public void channel(WebSocket.Out<JsonNode> out, JsonNode field) {
+	public void channel(WebSocket.Out<JsonNode> out, JsonNode field) throws Exception {
 		out.write(field);
 	}
 
@@ -72,13 +81,19 @@ public class Application extends Controller {
 							startNewRound();
 						} else if (command.equals("newGame")) {
 							game();
+						} else if (command.equals("undo")) {
+							controller.removeToken();
 						} else {
 							int x = Integer.parseInt(command.split("_")[0]) - 1;
 							int y = Integer.parseInt(command.split("_")[1]) - 1;
 							lastAction = controller.setToken(x, y);
-							channel(out, jsonField());// im controller: in
-														// newGame() fehlt
-														// notifyObservers()
+							try {
+								channel(out, jsonField());// im controller: in
+															// newGame() fehlt
+															// notifyObservers()
+							} catch(Exception ex) {
+								System.err.println("Websocket is closed!");
+							}
 						}
 						// if(lastAction == 'e') {
 						// channel(out, x + 1, y + 1,
@@ -110,7 +125,11 @@ public class Application extends Controller {
 		public void update() {
 			// channel(out)
 			// System.out.println("heyyo");
-			channel((WebSocket.Out<JsonNode>) out, jsonField());
+			try {
+				channel((WebSocket.Out<JsonNode>) out, jsonField());
+			} catch(Exception ex) {
+				System.err.println("Websocket is closed!");
+			}
 		}
 	}
 
@@ -152,7 +171,8 @@ public class Application extends Controller {
 	}
 
 	//methods used by Angular.js
-
+	
+	@SecuredAction
 	public Result setToken(int x, int y) {
 		// if(coord.length() != 2) {
 		// return
@@ -160,7 +180,8 @@ public class Application extends Controller {
 		lastAction = controller.setToken(x - 1, y - 1);
 		return ok(jsonField());
 	}
-
+	
+	@SecuredAction
 	public Result newGame() {
 //		games.exit(); //muss erst implementiert werden in gobanggame (exit(): instance = null)
 		games = GoBangGame.getInstance();
@@ -168,13 +189,55 @@ public class Application extends Controller {
 		return ok(jsonField());
 	}
 
+	@SecuredAction
 	public Result newRound() {
 		startNewRound();
 		lastAction = 'e';
 		return ok(jsonField());
 	}
 
+	@SecuredAction
+	public Result undo() {
+		if(!controller.removeToken()) {
+			lastAction = 'f';
+		}
+		return ok(jsonField());
+	}
+
+	@SecuredAction
 	public Result getJson() {
 		return ok(jsonField());
 	}
+
+    @UserAwareAction
+    public Result userAware() {
+        DemoUser demoUser = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+        String userName;
+        if (demoUser != null) {
+            BasicProfile user = demoUser.main;
+            if (user.firstName().isDefined()) {
+                userName = user.firstName().get();
+            } else if (user.fullName().isDefined()) {
+                userName = user.fullName().get();
+            } else {
+                userName = "authenticated user";
+            }
+        } else {
+            userName = "guest";
+        }
+        return ok("Hello " + userName + ", you are seeing a public page");
+    }
+
+
+    @SecuredAction(authorization = WithProvider.class, params = {"github"})
+    public Result onlyGithub() {
+        return ok("You are seeing this because you logged in using Github");
+    }
+
+    @SecuredAction
+    public Result linkResult() {
+        DemoUser current = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+        return ok(linkResult.render(current, current.identities));
+    }
+
 }

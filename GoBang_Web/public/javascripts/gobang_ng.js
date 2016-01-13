@@ -32,6 +32,14 @@ goBangApp.controller('GoBangCtrl', function($scope, $http) {
 				$scope.p2wins = data.p2wins
 				$scope.current = data.current
 				$scope.status = data.status
+				if(data.status == 'g') {
+					$scope.winner = 'Player 2'
+					if(data.current == 'blue') {
+						$scope.winner = 'Player 1'
+					}
+
+					$(".bs-winner-modal-sm").modal("show");
+				}
 			});
 		}
 		$scope.command = function(command) {

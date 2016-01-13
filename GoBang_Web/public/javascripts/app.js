@@ -9,6 +9,14 @@ $(function() {
 	$('#new_round').click(function() {
 		command("newRound");
 	});
+
+	$('#new_game').click(function() {
+		command("newGame");
+	});
+
+	$('#undo_icon').click(function() {
+		command("undo");
+	});
 	
 	Server.bind('message', function(field) {
 		var jsonField = JSON.parse(field);
@@ -24,6 +32,14 @@ $(function() {
 					updateField(jsonField.field[i][j].id, 'white');
 				}
 			}
+		}
+		if(jsonField.status == 'g') {
+			winner = 'Player 2'
+			if(jsonField.current == 'blue') {
+				winner = 'Player 1'
+			}
+			document.getElementById("winner").textContent = winner
+			$(".bs-winner-modal-sm").modal("show");
 		}
 	});
 

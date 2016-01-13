@@ -17,6 +17,7 @@
 		
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 		<script src="/assets/javascripts/fancywebsocket.js"></script>
 		<script src="/assets/javascripts/app.js"></script>
     </head>
@@ -37,7 +38,7 @@
 		    <!-- Collect the nav links, forms, and other content for toggling -->
 		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		      <ul class="nav navbar-nav">
-		        <li><a href="/gobang">New Game</a></li>
+		        <li><a id="new_game" href="#">New Game</a></li>
 		        <li><a id="new_round" href="#">New Round</a></li>
 		        <li class="dropdown">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Options <span class="caret"></span></a>
@@ -53,6 +54,9 @@
 		        </li>
 		        <li><a href="#">Help</a></li>
 		      </ul>
+     			<ul class="nav navbar-nav navbar-right">
+ 					<li><a href="/logout">Logout</a></li>
+    			</ul>
 		    </div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
@@ -62,6 +66,16 @@
 		  	<span id="p1wins">0</span> Wins
 		  </div>
 			<div class="col-md-5">
+			  <div class="modal fade bs-winner-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+			    <div class="modal-dialog modal-sm">
+			      <div class="modal-content">
+			      	<span id="winner"></span> wins!
+			      	<div class="modal-footer">
+					  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="command('newRound')">Rematch</button>
+				  	</div>
+			      </div>
+			    </div>
+			  </div>
 			@for( a <-1 to 19){
 		      <div class="btn-group" role="group" aria-label="...">
 			  @for( b <-1 to 19){	
@@ -76,6 +90,7 @@
 		  <div class="col-md-1">
 		  	Player 2<br>
 		  	<span id="p2wins">0</span> Wins
+		  	<i id="undo_icon" class="fa fa-undo fa-3x"></i>
 		  </div>
 		</div>
     </body>

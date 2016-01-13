@@ -1,5 +1,7 @@
 @(title: String)(content: Html)(choice: String)
+
 <!DOCTYPE html>
+
 <html ng-app>
     <head>
         <title>@title</title>
@@ -7,16 +9,15 @@
         <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
         <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
         <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    </script>
-    <script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<script>
-	    $('ul.nav.nav-pills.nav-stacked').on('click', 'li', function() {
-            $('ul.nav.nav-pills.nav-stacked li.active').removeClass('active');
-            $(this).addClass('active');
-        });
-	</script>
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	    <script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script>
+		    $('ul.nav.nav-pills.nav-stacked').on('click', 'li', function() {
+	            $('ul.nav.nav-pills.nav-stacked li.active').removeClass('active');
+	            $(this).addClass('active');
+	        });
+		</script>
     </head>
     <body>
         <div class="row">
@@ -36,6 +37,6 @@
             <div class="col-md-8">
                 @content
             </div>
-        <div>
+        </div>
     </body>
 </html>

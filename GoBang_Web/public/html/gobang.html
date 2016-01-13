@@ -16,6 +16,8 @@
 </script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	
 <script type="text/javascript" src="/gobang_ng.js"></script>
 </head>
 <body ng-controller="GoBangCtrl">
@@ -54,6 +56,9 @@
     						</ul></li>
     					<li><a href="#">Help</a></li>
     				</ul>
+    				<ul class="nav navbar-nav navbar-right">
+    					<li><a href="/logout">Logout</a></li>
+    				</ul>
     			</div>
     			<!-- /.navbar-collapse -->
     		</div>
@@ -74,6 +79,16 @@
         		                </div>
         		                <div class="col-md-2">
         		                    <div id="wins" class="well well-sm">{{p1wins}} : {{p2wins}}</div>
+        		                    <div class="modal fade bs-winner-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+								        <div class="modal-dialog modal-sm">
+								            <div class="modal-content">
+								      	        <span id="winner">{{winner}}</span> wins!
+								      	        <div class="modal-footer">
+        											<button type="button" class="btn btn-default" data-dismiss="modal" ng-click='command("newround")'>Rematch</button>
+        										</div>
+								            </div>
+								      	</div>
+								    </div>
         		                </div>
         		                <div class="col-md-5">
         		                    <div id="p2" class="well well-sm">Player 2</div>
@@ -89,6 +104,7 @@
              	<!--div class="statusline">Status: {{status}}</div--->
         
         		<div class="col-md-3">
+        			<i id="undo_icon" class="fa fa-undo fa-3x" ng-click='command("undo")'></i>
         		</div>
     		</div>
     	</div>

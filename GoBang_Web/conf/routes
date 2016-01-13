@@ -4,6 +4,9 @@
 
 # Home page
 GET     /                           controllers.Application.gobang()
+GET     /game                       controllers.Application.gobang_game()
+GET     /help                       controllers.Application.gobang_help()
+GET     /about                      controllers.Application.gobang_about()
 
 GET		/gobang/game				controllers.Application.game()
 GET		/gobang						controllers.Application.gobang()

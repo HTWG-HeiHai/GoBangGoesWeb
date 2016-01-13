@@ -1,14 +1,22 @@
-@(title: String)(content: Html)
+@(title: String)(content: Html)(choice: String)
 <!DOCTYPE html>
 <html ng-app>
     <head>
         <title>@title</title>
         <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
         <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     </script>
     <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script>
+	    $('ul.nav.nav-pills.nav-stacked').on('click', 'li', function() {
+            $('ul.nav.nav-pills.nav-stacked li.active').removeClass('active');
+            $(this).addClass('active');
+        });
+	</script>
     </head>
     <body>
         <div class="row">
@@ -18,12 +26,12 @@
         </div>
         <div class="row">
             <div class="col-md-1">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li role="presentation" class="active"><a href="gobang">Home</a></li>
-                            <li role="presentation"><a href="game">Game</a></li>
-                            <li role="presentation"><a href="help">Help</a></li>
-                            <li role="presentation"><a href="about">About</a></li>
-                        </ul>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation" ng-class="{ active: @choice == '1' }"><a href="gobang">Home</a></li>
+                        <li role="presentation" ng-class="{ active: @choice == '2' }"><a href="game">Game</a></li>
+                        <li role="presentation" ng-class="{ active: @choice == '3' }"><a href="help">Help</a></li>
+                        <li role="presentation" ng-class="{ active: @choice == '4' }"><a href="about">About</a></li>
+                    </ul>
             </div>
             <div class="col-md-8">
                 @content

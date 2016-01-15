@@ -51,4 +51,4 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET     /javascripts/*file          controllers.Assets.at(path="/public/javascripts", file)
 GET     /images/*file               controllers.Assets.at(path="/public/images", file)
 GET     /html/*file                 controllers.Assets.at(path="/public/html", file)
-->      /auth                       securesocial.Routes
+#->      /auth                       securesocial.Routes

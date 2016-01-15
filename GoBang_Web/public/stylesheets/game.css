@@ -1,5 +1,5 @@
 .page-wrapper {
-    background-image: url(images/bamboo_floor_texture_by_chubbylesbian.jpg);
+    background-image: url(/images/bamboo_floor_texture_by_chubbylesbian.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -11,7 +11,7 @@
 }
 
 #statusline {
-    background-image: url(images/local_texture__three_by_one_by_beyond_oddities.jpg);
+    background-image: url(/images/local_texture__three_by_one_by_beyond_oddities.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }

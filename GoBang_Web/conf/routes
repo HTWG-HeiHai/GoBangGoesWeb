@@ -46,8 +46,8 @@ GET     /gobang_ng.js     			controllers.Assets.at(path="/public/javascripts", f
 GET     /gobang.css                 controllers.Assets.at(path="/public/stylesheets", file="gobang.css")
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/securesocial/*file  securesocial.controllers.Assets.at(path="/public/lib/securesocial/securesocial", file)
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file  				securesocial.controllers.Assets.at(path="/public/lib/securesocial/securesocial", file)
+#GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 GET     /javascripts/*file          controllers.Assets.at(path="/public/javascripts", file)
 GET     /images/*file               controllers.Assets.at(path="/public/images", file)
 GET     /html/*file                 controllers.Assets.at(path="/public/html", file)

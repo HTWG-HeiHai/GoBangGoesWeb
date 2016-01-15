@@ -1,0 +1,56 @@
+.page-wrapper {
+    background-image: url(images/bamboo_floor_texture_by_chubbylesbian.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#gamefield {
+    background-color: rgba(0,0,0,0);
+    border-color: #846A4A;
+    border-style: solid;
+}
+
+#statusline {
+    background-image: url(images/local_texture__three_by_one_by_beyond_oddities.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.token {
+	display: inline-block;
+	width: 37px;
+	height: 37px;
+	position: relative;
+	bottom: 2px;
+	border-radius: 10px;
+	border-style: solid;
+	border-color: #846A4A;
+}
+
+.token .none {
+    background: rgba(0,0,0,0.1);
+}
+
+.token .black {
+	background-color: ivory;
+}
+
+.token .blue {
+	background-color: darkblue;
+}
+
+.game {
+    margin-left: 12%;
+}
+
+#wins {
+    text-align: center;
+}
+
+#p1 {
+    text-align: center;
+}
+
+#p2 {
+    text-align: center;
+}

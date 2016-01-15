@@ -12,32 +12,58 @@
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	    <script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-		<script>
-		    $('ul.nav.nav-pills.nav-stacked').on('click', 'li', function() {
-	            $('ul.nav.nav-pills.nav-stacked li.active').removeClass('active');
-	            $(this).addClass('active');
-	        });
-		</script>
+		<link rel="stylesheet"
+		href="/gobang.css">
     </head>
     <body>
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Gobang!</a>
+            </div>
+        
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Start game <span class="sr-only">(current)</span></a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Join game <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Game 1</a></li>
+                    <li><a href="#">Game 2</a></li>
+                    <li><a href="#">Game 3</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
         <div class="row">
             <div class=col-md-3>
-                <img src="images/gobang.jpg" alt="GoBang logo" height="250" width="250">
+                <img src="images/gobang_.png" alt="GoBang logo" height="170" width="170">
             </div>
             <div class=col-md-3>
-                <h3><br><br>Gobang</h3>
+                <h3><br><br><p>Gobang</p></h3>
             </div>
         </div>
+        <br>
         <div class="row">
             <div class="col-md-2">
                     <ul class="nav nav-pills nav-stacked">
-                        <li role="presentation" ng-class="{ active: @choice == '1' }"><a href="gobang">Home</a></li>
-                        <li role="presentation" ng-class="{ active: @choice == '2' }"><a href="game">Game</a></li>
-                        <li role="presentation" ng-class="{ active: @choice == '3' }"><a href="help">Help</a></li>
-                        <li role="presentation" ng-class="{ active: @choice == '4' }"><a href="about">About</a></li>
+                        <li role="presentation" ng-class="{ active: @choice == '1' }"><a href="gobang"><p>Home</p></a></li>
+                        <li role="presentation" ng-class="{ active: @choice == '2' }"><a href="game"><p>Game</p></a></li>
+                        <li role="presentation" ng-class="{ active: @choice == '3' }"><a href="help"><p>Help</p></a></li>
+                        <li role="presentation" ng-class="{ active: @choice == '4' }"><a href="about"><p>About</p></a></li>
                     </ul>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-6">
                 @content
             </div>
         </div>

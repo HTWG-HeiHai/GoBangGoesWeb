@@ -1,61 +1,20 @@
-.page-wrapper {
-    background-image: url(images/bamboo_floor_texture_by_chubbylesbian.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
+li {
+    border: 2px groove #191970;
+} 
+
+body {
+    background-color: black;
 }
 
-#gamefield {
-    background-color: rgba(0,0,0,0);
-    border-color: #846A4A;
-    border-style: solid;
+p {
+    color:orange;
 }
 
-#statusline {
-    background-image: url(images/local_texture__three_by_one_by_beyond_oddities.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
+.nav>li>a:hover,
+.nav>li>a:focus {
+    background-color: #696969;
+    text-decoration: underline;
 }
-
-.token {
-	display: inline-block;
-	width: 37px;
-	height: 37px;
-	position: relative;
-	bottom: 2px;
-	border-radius: 10px;
-	border-style: solid;
-	border-color: #846A4A;
+.navbar #nav > .active > a {
+    color: #696969;
 }
-
-.token .none {
-    background: rgba(0,0,0,0.1);
-}
-
-.token .black {
-	background-color: ivory;
-}
-
-.token .blue {
-	background-color: darkblue;
-}
-
-.game {
-    margin-left: 12%;
-}
-
-#wins {
-    text-align: center;
-}
-
-#p1 {
-    text-align: center;
-}
-
-#p2 {
-    text-align: center;
-}
-//background-image: url(redfoil.jpg); for textures
-	//background-image: url(contours.png), url(noise.png), url(gridlines.png), url(huntington.jpg);
-	//background-position: 0 0, 0 0, -5px -25px, 0 50%;
-	//background-repeat: repeat, repeat, repeat, no-repeat;
-	//background-size: auto, auto, auto, cover;

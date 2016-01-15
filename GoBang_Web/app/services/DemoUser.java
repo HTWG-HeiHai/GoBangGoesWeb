@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package service;
+package services;
 
 import securesocial.core.BasicProfile;
 
@@ -22,7 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DemoUser implements Serializable {
-    public BasicProfile main;
+	
+	private static final long serialVersionUID = 1L;
+	public BasicProfile main;
     public List<BasicProfile> identities;
 
     public DemoUser(BasicProfile user) {

@@ -1,6 +1,6 @@
 import com.google.inject.AbstractModule;
 import securesocial.core.RuntimeEnvironment;
-import service.MyEnvironment;
+import services.MyEnvironment;
 
 
 public class DemoModule extends AbstractModule {

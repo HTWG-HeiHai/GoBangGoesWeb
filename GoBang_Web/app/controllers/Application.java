@@ -2,10 +2,12 @@ package controllers;
 
 import views.html.*;
 import de.htwg.gobang.controller.IGbLogic;
+import de.htwg.gobang.controller.impl.GbLogic;
 import de.htwg.gobang.entities.IGameField;
 import de.htwg.gobang.entities.IGameToken;
 import de.htwg.gobang.game.GoBangGame;
 import de.htwg.gobang.ui.TUI;
+import models.Players;
 import de.htwg.gobang.observer.IObserver;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -18,9 +20,12 @@ import securesocial.core.RuntimeEnvironment;
 import securesocial.core.java.SecureSocial;
 import securesocial.core.java.SecuredAction;
 import securesocial.core.java.UserAwareAction;
-import service.DemoUser;
+import services.DemoUser;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsonorg.JsonOrgModule;
@@ -30,6 +35,14 @@ import org.json.JSONObject;
 
 public class Application extends Controller {
 
+	public static Map<String, WebSocketController> gameControllerMap = new HashMap<>();
+    public static Map<String, Players> roomPlayerMap = new HashMap<>();
+    
+//    public static Map<String, Integer> availableLobbies = new HashMap<>();
+    public static Semaphore createGameSem = new Semaphore(1);
+    public static Semaphore socketSem = new Semaphore(1);
+//    public static Semaphore updateSem = new Semaphore(1);
+    
 	GoBangGame games;
 	IGbLogic controller;
 	TUI printer;
@@ -38,15 +51,11 @@ public class Application extends Controller {
 	@SecuredAction
 	public Result game() {
 		DemoUser user = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
-		games = GoBangGame.getInstance();
-		controller = games.getController();
-		printer = games.getTui();
-		String tField = printer.drawField();
-		String tHead = printer.pTurn();
-		tHead = tHead.replaceAll("\n", "<br>");
-		tField = tField.replaceAll("\n", "<br>");
-		tField = tField.replaceAll(" ", "&nbsp;");
-		return ok(game.render(tHead, tField));
+		Result session = ok(game.render("something", "went", "wrong"));
+		try {
+			session = createGame("Deathmatch!");
+		} catch(InterruptedException ex) { }
+		return session;
 	}
 
 	public Result gobang() {
@@ -65,148 +74,236 @@ public class Application extends Controller {
 	    return ok(gobang.render("GoBang", gobangAbout.render(), "4"));
 	}
 
-	public void channel(WebSocket.Out<JsonNode> out, JsonNode field) throws Exception {
-		out.write(field);
-	}
+//    @SecuredAction
+//    public Result goToChatRoom(String roomName){
+//        DemoUser user = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+//        if (availableLobbies.containsKey(roomName)) {
+//            availableLobbies.put(roomName, 2);
+//        } else {
+//            availableLobbies.put(roomName, 1);
+//        }
+//        return chat.chatRoom(user.main.fullName().get(), roomName);
+//    }
 
-	public WebSocket<JsonNode> webSocket() {
-		return new WebSocket<JsonNode>() {
-			public void onReady(WebSocket.In<JsonNode> in, WebSocket.Out<JsonNode> out) {
-				new Watcher(controller, out);
+    @SecuredAction
+    public Result quitGame(String roomName) {
+        System.out.println("Player left the game");
+        gameControllerMap.remove(roomName);
+        roomPlayerMap.remove(roomName);
+        return ok();
+    }
 
-				in.onMessage(new Callback<JsonNode>() {
-					public void invoke(JsonNode json) {
-						String command = json.get("command").textValue();
-						if (command.equals("newRound")) {
-							startNewRound();
-						} else if (command.equals("newGame")) {
-							game();
-						} else if (command.equals("undo")) {
-							controller.removeToken();
-						} else {
-							int x = Integer.parseInt(command.split("_")[0]) - 1;
-							int y = Integer.parseInt(command.split("_")[1]) - 1;
-							lastAction = controller.setToken(x, y);
-							try {
-								channel(out, jsonField());// im controller: in
-															// newGame() fehlt
-															// notifyObservers()
-							} catch(Exception ex) {
-								System.err.println("Websocket is closed!");
-							}
-						}
-						// if(lastAction == 'e') {
-						// channel(out, x + 1, y + 1,
-						// controller.getcPlayer().getName());
-						// channel(out, toJson(controller.getField()));
-						// }
-						// gewinnen fehlt noch
-					}
-				});
-				in.onClose(new Callback0() {
-					public void invoke() {
+    @SecuredAction
+    public String getRoomNameOfPlayer(DemoUser player) {
+        String roomName = "";
+        System.out.println(roomPlayerMap.toString());
+        for(String room : roomPlayerMap.keySet()) {
+            if(roomPlayerMap.get(room).getPlayer1().equals(player) || roomPlayerMap.get(room).getPlayer2().equals(player)) {
+                roomName = room;
+                break;
+            }
+        }
+        return roomName;
+    }
 
-					}
-				});
-				// out.write("message");
-			}
-		};
-	}
+    @SecuredAction
+    public Result getRoomName() {
+    	DemoUser player = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+        String roomName = "";
+        System.out.println(roomPlayerMap.toString());
+        for(String room : roomPlayerMap.keySet()) {
+            if(roomPlayerMap.get(room).getPlayer1().equals(player) || roomPlayerMap.get(room).getPlayer2().equals(player)) {
+                roomName = room;
+                break;
+            }
+        }
+        return ok(roomName);
+    }
 
-	public class Watcher implements IObserver {
-		private Object out;
+    @SecuredAction
+    public synchronized Result createGame(String roomName) throws InterruptedException {
+        try {
+            System.out.println("Creating a new Game");
+            createGameSem.acquire();
+            System.out.println("Got createGame Mutex");
 
-		public Watcher(IGbLogic engine, WebSocket.Out<JsonNode> out) {
-			engine.addObserver(this);
-			this.out = out;
-		}
+            if(gameControllerMap.containsKey(roomName)) {
+                //System.out.println("Adding Player 2 to Game");
+                Players players = roomPlayerMap.get(roomName);
+                DemoUser newPlayer = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+                if(players.getPlayer1().equals(newPlayer) ) {
+                    System.out.println("redirecting Player1");
+                    return ok(game.render(newPlayer.main.userId(), roomName, "Player1"));
+                }
+                try {
+                    if(players.getPlayer2().equals(newPlayer)) {
+                        return ok(game.render(newPlayer.main.userId(), roomName, "Player2"));
+                    }
+                } catch (NullPointerException npe) {}
 
-		@Override
-		public void update() {
-			// channel(out)
-			// System.out.println("heyyo");
-			try {
-				channel((WebSocket.Out<JsonNode>) out, jsonField());
-			} catch(Exception ex) {
-				System.err.println("Websocket is closed!");
-			}
-		}
-	}
+                players.addPlayer2(newPlayer);
+                System.out.println("Player 2 is: " + newPlayer.main.fullName());
+                gameControllerMap.get(roomName).setPlayer2(newPlayer);
+                return ok(game.render(newPlayer.main.userId(), roomName, "Player2"));
+            } else {
+                System.out.println("Creating a new Game Controller");
+                DemoUser player1 = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+                System.out.println("Player 1 is: " + player1.main.fullName());
+                IGbLogic controller = new GbLogic();
+                WebSocketController wsController = new WebSocketController(controller, player1);
+                System.out.println("Mapping Room and Players");
+                gameControllerMap.put(roomName, wsController);
 
-	//helper functions
+                Players players = new Players(player1);
+                roomPlayerMap.put(roomName, players);
+                System.out.println(roomPlayerMap.toString());
+                System.out.println(gameControllerMap.toString());
+                System.out.println("init game ready");
 
-	private void startNewRound() {
-		if (controller.getcPlayer() == controller.getPlayer1()) {
-			controller.newGame(true);
-		} else {
-			controller.newGame(false);
-		}
-	}
+                return ok(game.render(player1.main.userId(), roomName, "Player1"));
+            }
+        } finally {
+            System.out.println("release create Game Mutex");
+            createGameSem.release();
+        }
+    }
+    
+    @SecuredAction
+    public synchronized void createNgGame(String roomName) throws InterruptedException {
+    	try {
+    		System.out.println("Creating a new Game");
+    		createGameSem.acquire();
+    		System.out.println("Got createGame Mutex");
+    		
+    		if(gameControllerMap.containsKey(roomName)) {
+    			//System.out.println("Adding Player 2 to Game");
+    			Players players = roomPlayerMap.get(roomName);
+    			DemoUser newPlayer = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+    			if(players.getPlayer1().equals(newPlayer) ) {
+    				System.out.println("redirecting Player1");
+    				return;
+    			}
+    			try {
+    				if(players.getPlayer2().equals(newPlayer)) {
+    					return;
+    				}
+    			} catch (NullPointerException npe) {}
+    			
+    			players.addPlayer2(newPlayer);
+    			System.out.println("Player 2 is: " + newPlayer.main.fullName());
+    			gameControllerMap.get(roomName).setPlayer2(newPlayer);
+    		} else {
+    			System.out.println("Creating a new Game Controller");
+    			DemoUser player1 = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+    			System.out.println("Player 1 is: " + player1.main.fullName());
+    			IGbLogic controller = new GbLogic();
+    			WebSocketController wsController = new WebSocketController(controller, player1);
+    			System.out.println("Mapping Room and Players");
+    			gameControllerMap.put(roomName, wsController);
+    			
+    			Players players = new Players(player1);
+    			roomPlayerMap.put(roomName, players);
+    			System.out.println(roomPlayerMap.toString());
+    			System.out.println(gameControllerMap.toString());
+    			System.out.println("init game ready");
+    		}
+    	} finally {
+    		System.out.println("release create Game Mutex");
+    		createGameSem.release();
+    	}
+    }
 
-	private JsonNode jsonField() {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new JsonOrgModule());
-		JSONObject json = new JSONObject();
-		JSONArray f = new JSONArray();
-		int i = 1;
-		for (IGameToken[] row : controller.getField()) {
-			JSONArray r = new JSONArray();
-			int j = 1;
-			for (IGameToken token : row) {
-				JSONObject t = new JSONObject();
-				t.put("id", i + "_" + j);
-				t.put("name", token.getName());
-				r.put(t);
-				j++;
-			}
-			f.put(r);
-			i++;
-		}
-		json.put("current", controller.getcPlayer().getName());
-		json.put("p1wins", controller.getWinPlayer1());
-		json.put("p2wins", controller.getWinPlayer2());
-		json.put("status", String.valueOf(lastAction));
-		json.put("field", f);
-		return mapper.valueToTree(json);
-	}
+    @SecuredAction
+    public Result getUserId() {
+        DemoUser player = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+        return ok(player.main.userId());
+    }
+
+    @SecuredAction
+    public Result getPlayerName(String room) {
+    	DemoUser player = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+    	if(roomPlayerMap.get(room).getPlayer1().equals(player)) {
+    		return ok("Player1");
+    	}
+    	return ok("Player2");
+    }
+
+    @SecuredAction
+    public synchronized WebSocket<JsonNode> getWebSocket(String userID) throws InterruptedException {
+        try {
+            System.out.println("Get Socket Called");
+            socketSem.acquire();
+            System.out.println("Got Socket Mutex");
+            WebSocketController wsController = null;
+            DemoUser player = null;
+            for (WebSocketController wsc : gameControllerMap.values()) {
+                System.out.println("is Player1:" + wsc.getPlayer1().main.userId().equals(userID));
+                if (wsc.getPlayer1().main.userId().equals(userID)) {
+                	wsController = wsc;
+                    player = wsController.getPlayer1();
+                    break;
+                }
+                try {
+                    System.out.println("is Player2: " + wsc.getPlayer2().main.userId().equals(userID));
+                    if (wsc.getPlayer2().main.userId().equals(userID)) {
+                    	wsController = wsc;
+                        player = wsController.getPlayer2();
+                        break;
+                    }
+                } catch (NullPointerException npe) {
+                    //player 2 is not in the game yet
+                }
+            }
+            return wsController.getSocket(player);
+        } finally {
+            System.out.println("Release Socket Mutex");
+            socketSem.release();
+        }
+    }
 
 	//methods used by Angular.js
 	
 	@SecuredAction
 	public Result setToken(int x, int y) {
-		// if(coord.length() != 2) {
-		// return
-		// }
-		lastAction = controller.setToken(x - 1, y - 1);
-		return ok(jsonField());
+		DemoUser player = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+        gameControllerMap.get(getRoomNameOfPlayer(player)).set(x-1, y-1);
+		return ok(gameControllerMap.get(getRoomNameOfPlayer(player)).jsonField());
 	}
 	
 	@SecuredAction
 	public Result newGame() {
-//		games.exit(); //muss erst implementiert werden in gobanggame (exit(): instance = null)
-		games = GoBangGame.getInstance();
-		controller = games.getController();
-		return ok(jsonField());
+		DemoUser player = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+        gameControllerMap.get(getRoomNameOfPlayer(player)).startNewGame();
+		return ok(gameControllerMap.get(getRoomNameOfPlayer(player)).jsonField());
+	}
+	
+	@SecuredAction
+	public Result createSession(String roomName) {
+		DemoUser player = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+		try {
+			createNgGame(roomName);
+		} catch(InterruptedException ex) { }
+		return ok(gameControllerMap.get(getRoomNameOfPlayer(player)).jsonField());
 	}
 
 	@SecuredAction
 	public Result newRound() {
-		startNewRound();
-		lastAction = 'e';
-		return ok(jsonField());
+		DemoUser player = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+        gameControllerMap.get(getRoomNameOfPlayer(player)).startNewRound();
+		return ok(gameControllerMap.get(getRoomNameOfPlayer(player)).jsonField());
 	}
 
 	@SecuredAction
 	public Result undo() {
-		if(!controller.removeToken()) {
-			lastAction = 'f';
-		}
-		return ok(jsonField());
+		DemoUser player = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+        gameControllerMap.get(getRoomNameOfPlayer(player)).undo();
+		return ok(gameControllerMap.get(getRoomNameOfPlayer(player)).jsonField());
 	}
 
 	@SecuredAction
 	public Result getJson() {
-		return ok(jsonField());
+		DemoUser player = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+		return ok(gameControllerMap.get(getRoomNameOfPlayer(player)).jsonField());
 	}
 
     @UserAwareAction

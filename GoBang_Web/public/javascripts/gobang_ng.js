@@ -1,4 +1,4 @@
-var goBangApp = angular.module('goBangApp', [ 'ngSanitize' ]);
+var goBangApp = angular.module('goBangApp', [ 'ngWebSocket' ]);
 
 goBangApp.directive('gobangField', function() {
 	return {
@@ -18,38 +18,119 @@ goBangApp.directive('gobangToken', function() {
 	};
 });
 
-goBangApp.controller('GoBangCtrl', function($scope, $http) {
-	$http.get('/json/newgame').success(function(data) {
+var Server;
+
+goBangApp.controller('GoBangCtrl', function($scope, $http, $websocket) {
+	$http.get('/json/create/NG-Match').success(function(data) {
 		$scope.field = data.field
 		$scope.p1wins = data.p1wins
 		$scope.p2wins = data.p2wins
 		$scope.current = data.current
 		$scope.status = data.status
+		$scope.cplayer = 'Player1'
+		if(data.current == 'blue') {
+			$scope.cplayer = 'Player2'
+		}
 		$scope.tokenclicked = function(id) {
-			$http.get('/json/set/' + id.split('_')[0] + '/' + id.split('_')[1]).success(function(data) {
+			jsonCommand = {"command": id};
+			Server.send(JSON.stringify(jsonCommand));
+//			$http.get('/json/set/' + id.split('_')[0] + '/' + id.split('_')[1]).success(function(data) {
+//				$scope.field = data.field
+//				$scope.p1wins = data.p1wins
+//				$scope.p2wins = data.p2wins
+//				$scope.current = data.current
+//				$scope.status = data.status
+//				$scope.cplayer = 'Player1'
+//				if(data.current == 'blue') {
+//					$scope.cplayer = 'Player2'
+//				}
+//				if(data.status == 'g') {
+//					$scope.winner = 'Player2'
+//					if(data.current == 'blue') {
+//						$scope.winner = 'Player1'
+//					}
+//
+//					$(".bs-winner-modal-sm").modal("show");
+//				}
+//			});
+		}
+		$scope.command = function(command) {
+			jsonCommand = {"command": command};
+			Server.send(JSON.stringify(jsonCommand));			
+//			$http.get('/json/' + command).success(function(data) {
+//				$scope.field = data.field;
+//				$scope.p1wins = data.p1wins
+//				$scope.p2wins = data.p2wins
+//				$scope.current = data.current
+//				$scope.status = data.status
+//				$scope.cplayer = 'Player1'
+//				if(data.current == 'blue') {
+//					$scope.cplayer = 'Player2'
+//				}
+//			});
+		}
+		$http.get('user').success(function(user) {
+			$scope.userId = user
+			Server = $websocket('ws://' + location.host + '/websocket/' + user);
+			Server.onOpen(function() {
+	            console.log("got Socket");
+	        });
+
+			Server.onClose(function() {
+	            console.log("Socket closed");
+	        });
+
+			Server.onError(function() {
+	            console.log("got Socket Error");
+	        });
+
+			Server.onMessage(function(message) {
+				var data = JSON.parse(message.data);
+//				console.log(data.field)
 				$scope.field = data.field
 				$scope.p1wins = data.p1wins
 				$scope.p2wins = data.p2wins
 				$scope.current = data.current
 				$scope.status = data.status
+				$scope.cplayer = 'Player1'
+				if(data.current == 'blue') {
+					$scope.cplayer = 'Player2'
+				}
 				if(data.status == 'g') {
-					$scope.winner = 'Player 2'
+					$scope.winner = 'Player2'
 					if(data.current == 'blue') {
-						$scope.winner = 'Player 1'
+						$scope.winner = 'Player1'
 					}
 
 					$(".bs-winner-modal-sm").modal("show");
-				}
+			}
+////				var data = JSON.parse(field);
+//				$scope.field = data.field
+//				$scope.p1wins = data.p1wins
+//				$scope.p2wins = data.p2wins
+//				$scope.current = data.current
+//				$scope.status = data.status
+//				$scope.cplayer = 'Player1'
+//				if(data.current == 'blue') {
+//					$scope.cplayer = 'Player2'
+//				}
+//				if(data.status == 'g') {
+//					$scope.winner = 'Player2'
+//					if(data.current == 'blue') {
+//						$scope.winner = 'Player1'
+//					}
+//
+//					$(".bs-winner-modal-sm").modal("show");
+//				}
 			});
-		}
-		$scope.command = function(command) {
-			$http.get('/json/' + command).success(function(data) {
-				$scope.field = data.field;
-				$scope.p1wins = data.p1wins
-				$scope.p2wins = data.p2wins
-				$scope.current = data.current
-				$scope.status = data.status
+
+//			Server.connect();
+		});
+		$http.get('room').success(function(data) {
+			$scope.room = data
+			$http.get('player/' + $scope.room).success(function(data2) {
+				$scope.name = data2
 			});
-		}
+		});
 	});
 });

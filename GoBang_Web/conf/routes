@@ -26,11 +26,18 @@ POST    /authenticate/:provider     securesocial.controllers.ProviderController.
 
 GET		/gobang/game				controllers.Application.game()
 GET		/gobang						controllers.Application.gobang()
-GET		/websocket					controllers.Application.webSocket()
+GET		/websocket/:userId			controllers.Application.getWebSocket(userId: String)
+GET 	/game/:roomName 			controllers.Application.createGame(roomName: String)
 
+GET 	/user  						controllers.Application.getUserId()
+GET 	/room 						controllers.Application.getRoomName()
+GET 	/player/:room 				controllers.Application.getPlayerName(room: String)
+
+# AngularJs
 GET     /json/set/:x/:y		    	controllers.Application.setToken(x: Int, y: Int)
 GET     /json/newround		    	controllers.Application.newRound()
 GET     /json/newgame		    	controllers.Application.newGame()
+GET     /json/create/:roomName 		controllers.Application.createSession(roomName: String)
 GET     /json/undo		    		controllers.Application.undo()
 GET 	/json/field 				controllers.Application.getJson()
 

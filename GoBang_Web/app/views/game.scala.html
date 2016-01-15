@@ -1,4 +1,4 @@
-@(head: String)(content: String)
+@(userId: String)(room: String)(name: String)
 
 <!DOCTYPE html>
 
@@ -55,6 +55,8 @@
 		        <li><a href="#">Help</a></li>
 		      </ul>
      			<ul class="nav navbar-nav navbar-right">
+     				<li><a href="#">Game Session: @room</a></li>
+     				<li><a id="userId" type=@userId href="#">@name</a></li>
  					<li><a href="/logout">Logout</a></li>
     			</ul>
 		    </div><!-- /.navbar-collapse -->
@@ -80,7 +82,7 @@
 		      <div class="btn-group" role="group" aria-label="...">
 			  @for( b <-1 to 19){	
 			  	@defining(a + "_" + b) { tid=>
-		  		<button id=@tid type="button" class="btn btn-lg" style="border-color:black" onclick="changeField(@a,@b)"> </button>
+		  		<button id=@tid type="button" class="btn btn-lg" style="border-color:black" onclick="changeField(@a,@b)"></button>
 		  		}
 			  }
 			  </div>

@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package service
+package services
 
 import securesocial.core.RuntimeEnvironment
 import securesocial.core.providers._

@@ -11,13 +11,15 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular.min.js"></script>
 <script
 	src="https:////ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
+<script
+	src="http://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-	
+<script src="/assets/javascripts/fancywebsocket.js"></script>	
 <script type="text/javascript" src="/gobang_ng.js"></script>
 </head>
 <body ng-controller="GoBangCtrl">
@@ -40,8 +42,8 @@
     			<div class="collapse navbar-collapse"
     				id="bs-example-navbar-collapse-1">
     				<ul class="nav navbar-nav">
-    					<li><a href="#" ng-click='command("newgame")'>New Game</a></li>
-    					<li><a id="new_round" href="#" ng-click='command("newround")'>New Round</a></li>
+    					<li><a href="#" ng-click='command("newGame")'>New Game</a></li>
+    					<li><a id="new_round" href="#" ng-click='command("newRound")'>New Round</a></li>
     					<li class="dropdown"><a href="#" class="dropdown-toggle"
     						data-toggle="dropdown" role="button" aria-haspopup="true"
     						aria-expanded="false">Options <span class="caret"></span></a>
@@ -57,6 +59,8 @@
     					<li><a href="#">Help</a></li>
     				</ul>
     				<ul class="nav navbar-nav navbar-right">
+ 				     	<li><a href="#">Game Session: {{room}}</a></li>
+     					<li><a id="userId" href="#">{{name}}</a></li>
     					<li><a href="/logout">Logout</a></li>
     				</ul>
     			</div>
@@ -84,7 +88,7 @@
 								            <div class="modal-content">
 								      	        <span id="winner">{{winner}}</span> wins!
 								      	        <div class="modal-footer">
-        											<button type="button" class="btn btn-default" data-dismiss="modal" ng-click='command("newround")'>Rematch</button>
+        											<button type="button" class="btn btn-default" data-dismiss="modal" ng-click='command("newRound")'>Rematch</button>
         										</div>
 								            </div>
 								      	</div>

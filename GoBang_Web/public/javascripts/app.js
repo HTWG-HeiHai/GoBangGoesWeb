@@ -20,37 +20,49 @@ $(function() {
 	
 	Server.bind('message', function(field) {
 		var jsonField = JSON.parse(field);
-
-		playerName = document.getElementById("userId").textContent
-		current = 'Player1'
-		if(jsonField.current == 'blue') {
-			current = 'Player2'
-		}
-//		console.log(current == playerName)
-		document.getElementById("p1wins").textContent = jsonField.p1wins
-		document.getElementById("p2wins").textContent = jsonField.p2wins
-
-		for(var i = 0; i < jsonField.field.length; ++i) {
-			for(var j = 0; j < jsonField.field.length; ++j) {
-				if(jsonField.field[i][j].name != 'none') {
-					updateField(jsonField.field[i][j].id, jsonField.field[i][j].name);
-				} else {
-					updateField(jsonField.field[i][j].id, 'white');
-				}
-				if(current != playerName || jsonField.status == 'g') {
-					$('#' + jsonField.field[i][j].id).prop('disabled', true);
-				} else {
-					$('#' + jsonField.field[i][j].id).prop('disabled', false);
+		if(jsonField.command == 'playerLeft') {
+			xhttp = new XMLHttpRequest();
+			xhttp.open("GET", '/quitgame/' + document.getElementById("room").textContent, true);
+			xhttp.send();
+			xhttp.onreadystatechange = function() {
+				if (xhttp.readyState == 4 && xhttp.status == 200) {
+					console.log("the other player left")
+					alert("Other player left the game!")
+					window.location.replace("/")
 				}
 			}
-		}
-		if(jsonField.status == 'g') {
-			winner = 'Player2'
+		} else {
+			playerName = document.getElementById("userId").textContent
+			current = 'Player1'
 			if(jsonField.current == 'blue') {
-				winner = 'Player1'
+				current = 'Player2'
 			}
-			document.getElementById("winner").textContent = winner
-			$(".bs-winner-modal-sm").modal("show");
+	//		console.log(current == playerName)
+			document.getElementById("p1wins").textContent = jsonField.p1wins
+			document.getElementById("p2wins").textContent = jsonField.p2wins
+
+			for(var i = 0; i < jsonField.field.length; ++i) {
+				for(var j = 0; j < jsonField.field.length; ++j) {
+					if(jsonField.field[i][j].name != 'none') {
+						updateField(jsonField.field[i][j].id, jsonField.field[i][j].name);
+					} else {
+						updateField(jsonField.field[i][j].id, 'white');
+					}
+					if(current != playerName || jsonField.status == 'g') {
+						$('#' + jsonField.field[i][j].id).prop('disabled', true);
+					} else {
+						$('#' + jsonField.field[i][j].id).prop('disabled', false);
+					}
+				}
+			}
+			if(jsonField.status == 'g') {
+				winner = 'Player2'
+				if(jsonField.current == 'blue') {
+					winner = 'Player1'
+				}
+				document.getElementById("winner").textContent = winner
+				$(".bs-winner-modal-sm").modal("show");
+			}
 		}
 	});
 

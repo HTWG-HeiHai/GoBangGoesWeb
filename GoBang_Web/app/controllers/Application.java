@@ -53,7 +53,7 @@ public class Application extends Controller {
 		DemoUser user = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
 		Result session = ok(game.render("something", "went", "wrong"));
 		try {
-			session = createGame("Deathmatch!");
+			session = createGame("Deathmatch");
 		} catch(InterruptedException ex) { }
 		return session;
 	}

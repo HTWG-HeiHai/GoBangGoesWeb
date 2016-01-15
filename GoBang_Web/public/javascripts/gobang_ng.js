@@ -86,24 +86,30 @@ goBangApp.controller('GoBangCtrl', function($scope, $http, $websocket) {
 
 			Server.onMessage(function(message) {
 				var data = JSON.parse(message.data);
-//				console.log(data.field)
-				$scope.field = data.field
-				$scope.p1wins = data.p1wins
-				$scope.p2wins = data.p2wins
-				$scope.current = data.current
-				$scope.status = data.status
-				$scope.cplayer = 'Player1'
-				if(data.current == 'blue') {
-					$scope.cplayer = 'Player2'
-				}
-				if(data.status == 'g') {
-					$scope.winner = 'Player2'
+				if(data.command == 'playerLeft') {
+					$http.get('/quitgame/' + $scope.room).success(function () {
+						window.location.replace("/")
+					});
+				} else {
+	//				console.log(data.field)
+					$scope.field = data.field
+					$scope.p1wins = data.p1wins
+					$scope.p2wins = data.p2wins
+					$scope.current = data.current
+					$scope.status = data.status
+					$scope.cplayer = 'Player1'
 					if(data.current == 'blue') {
-						$scope.winner = 'Player1'
+						$scope.cplayer = 'Player2'
 					}
+					if(data.status == 'g') {
+						$scope.winner = 'Player2'
+						if(data.current == 'blue') {
+							$scope.winner = 'Player1'
+						}
 
-					$(".bs-winner-modal-sm").modal("show");
-			}
+						$(".bs-winner-modal-sm").modal("show");
+					}
+				}
 ////				var data = JSON.parse(field);
 //				$scope.field = data.field
 //				$scope.p1wins = data.p1wins

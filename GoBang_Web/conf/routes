@@ -28,6 +28,7 @@ GET		/gobang/game				controllers.Application.game()
 GET		/gobang						controllers.Application.gobang()
 GET		/websocket/:userId			controllers.Application.getWebSocket(userId: String)
 GET 	/game/:roomName 			controllers.Application.createGame(roomName: String)
+GET 	/quitgame/:roomName 		controllers.Application.quitGame(roomName: String)
 
 GET 	/user  						controllers.Application.getUserId()
 GET 	/room 						controllers.Application.getRoomName()

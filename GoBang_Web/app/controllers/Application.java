@@ -50,11 +50,15 @@ public class Application extends Controller {
 	char lastAction = 'n';
 
 	@SecuredAction
-	public Result game() {
+	public Result game(String name, String version) {
 		DemoUser user = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
 		Result session = ok(game.render("something", "went", "wrong"));
 		try {
-			session = createGame("Deathmatch");
+			if(version.equals("ng")) {
+				session = createNgGame(name);
+			} else {
+				session = createGame(name);
+			}
 		} catch(InterruptedException ex) { }
 		return session;
 	}

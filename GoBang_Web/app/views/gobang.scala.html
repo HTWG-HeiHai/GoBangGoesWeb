@@ -37,7 +37,8 @@
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Join game <span class="caret"></span></a>
                   <ul class="dropdown-menu">
                   	@for(game <- games) {
-                  		<li><a href="/game/@game">@game</a></li>
+                  		<li><a href="/game/@game">@game (Play)</a></li>
+                  		<li><a href="/nggame/@game">@game (AngularJs)</a></li>
                   	}
                   </ul>
                 </li>

@@ -21,7 +21,7 @@ goBangApp.directive('gobangToken', function() {
 var Server;
 
 goBangApp.controller('GoBangCtrl', function($scope, $http, $websocket) {
-	$http.get('/json/create/NG-Match').success(function(data) {
+	$http.get('/json/field').success(function(data) {
 		$scope.field = data.field
 		$scope.p1wins = data.p1wins
 		$scope.p2wins = data.p2wins

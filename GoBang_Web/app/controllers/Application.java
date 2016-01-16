@@ -23,6 +23,7 @@ import securesocial.core.java.UserAwareAction;
 import services.DemoUser;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
@@ -59,19 +60,19 @@ public class Application extends Controller {
 	}
 
 	public Result gobang() {
-		return ok(gobang.render("GoBang", gobangMain.render(), "1"));
+		return ok(gobang.render("GoBang", gobangMain.render(), "1", new ArrayList<String>(gameControllerMap.keySet())));
 	}
 	
 	public Result gobang_game(){
-	    return ok(gobang.render("GoBang", gobangGame.render(), "2"));
+	    return ok(gobang.render("GoBang", gobangGame.render(), "2", new ArrayList<String>(gameControllerMap.keySet())));
 	}
 
 	public Result gobang_help(){
-	    return ok(gobang.render("GoBang", gobangHelp.render(), "3"));
+	    return ok(gobang.render("GoBang", gobangHelp.render(), "3", new ArrayList<String>(gameControllerMap.keySet())));
 	}
 
 	public Result gobang_about(){
-	    return ok(gobang.render("GoBang", gobangAbout.render(), "4"));
+	    return ok(gobang.render("GoBang", gobangAbout.render(), "4", new ArrayList<String>(gameControllerMap.keySet())));
 	}
 
 //    @SecuredAction
@@ -169,7 +170,7 @@ public class Application extends Controller {
     }
     
     @SecuredAction
-    public synchronized void createNgGame(String roomName) throws InterruptedException {
+    public synchronized Result createNgGame(String roomName) throws InterruptedException {
     	try {
     		System.out.println("Creating a new Game");
     		createGameSem.acquire();
@@ -181,17 +182,18 @@ public class Application extends Controller {
     			DemoUser newPlayer = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
     			if(players.getPlayer1().equals(newPlayer) ) {
     				System.out.println("redirecting Player1");
-    				return;
+    				return redirect("/gobang.html");
     			}
     			try {
     				if(players.getPlayer2().equals(newPlayer)) {
-    					return;
+    					return redirect("/gobang.html");
     				}
     			} catch (NullPointerException npe) {}
     			
     			players.addPlayer2(newPlayer);
     			System.out.println("Player 2 is: " + newPlayer.main.fullName());
     			gameControllerMap.get(roomName).setPlayer2(newPlayer);
+    			return redirect("/gobang.html");
     		} else {
     			System.out.println("Creating a new Game Controller");
     			DemoUser player1 = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
@@ -206,6 +208,7 @@ public class Application extends Controller {
     			System.out.println(roomPlayerMap.toString());
     			System.out.println(gameControllerMap.toString());
     			System.out.println("init game ready");
+    			return redirect("/gobang.html");
     		}
     	} finally {
     		System.out.println("release create Game Mutex");
@@ -277,14 +280,14 @@ public class Application extends Controller {
 		return ok(gameControllerMap.get(getRoomNameOfPlayer(player)).jsonField());
 	}
 	
-	@SecuredAction
-	public Result createSession(String roomName) {
-		DemoUser player = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
-		try {
-			createNgGame(roomName);
-		} catch(InterruptedException ex) { }
-		return ok(gameControllerMap.get(getRoomNameOfPlayer(player)).jsonField());
-	}
+//	@SecuredAction
+//	public Result createSession(String roomName) {
+//		DemoUser player = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
+//		try {
+//			createNgGame(roomName);
+//		} catch(InterruptedException ex) { }
+//		return ok(gameControllerMap.get(getRoomNameOfPlayer(player)).jsonField());
+//	}
 
 	@SecuredAction
 	public Result newRound() {

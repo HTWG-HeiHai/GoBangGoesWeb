@@ -38,7 +38,7 @@ GET 	/player/:room 				controllers.Application.getPlayerName(room: String)
 GET     /json/set/:x/:y		    	controllers.Application.setToken(x: Int, y: Int)
 GET     /json/newround		    	controllers.Application.newRound()
 GET     /json/newgame		    	controllers.Application.newGame()
-GET     /json/create/:roomName 		controllers.Application.createSession(roomName: String)
+GET     /create/:roomName 		controllers.Application.createNgGame(roomName: String)
 GET     /json/undo		    		controllers.Application.undo()
 GET 	/json/field 				controllers.Application.getJson()
 

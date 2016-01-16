@@ -24,7 +24,7 @@ GET     /link-result                controllers.Application.linkResult
 #POST    /authenticate/:provider     securesocial.controllers.ProviderController.authenticateByPost(provider)
 #GET     /not-authorized             securesocial.controllers.ProviderController.notAuthorized
 
-GET		/gobang/game				controllers.Application.game()
+#GET		/gobang/game				controllers.Application.game()
 GET		/gobang						controllers.Application.gobang()
 GET		/websocket/:userId			controllers.Application.getWebSocket(userId: String)
 GET 	/game/:roomName 			controllers.Application.createGame(roomName: String)
@@ -38,7 +38,7 @@ GET 	/player/:room 				controllers.Application.getPlayerName(room: String)
 GET     /json/set/:x/:y		    	controllers.Application.setToken(x: Int, y: Int)
 GET     /json/newround		    	controllers.Application.newRound()
 GET     /json/newgame		    	controllers.Application.newGame()
-GET     /create/:roomName 		controllers.Application.createNgGame(roomName: String)
+GET     /nggame/:roomName 			controllers.Application.createNgGame(roomName: String)
 GET     /json/undo		    		controllers.Application.undo()
 GET 	/json/field 				controllers.Application.getJson()
 

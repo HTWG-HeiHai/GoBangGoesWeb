@@ -38,30 +38,13 @@ public class Application extends Controller {
 
 	public static Map<String, WebSocketController> gameControllerMap = new HashMap<>();
     public static Map<String, Players> roomPlayerMap = new HashMap<>();
-    
-//    public static Map<String, Integer> availableLobbies = new HashMap<>();
     public static Semaphore createGameSem = new Semaphore(1);
     public static Semaphore socketSem = new Semaphore(1);
-//    public static Semaphore updateSem = new Semaphore(1);
     
 	GoBangGame games;
 	IGbLogic controller;
 	TUI printer;
 	char lastAction = 'n';
-
-	@SecuredAction
-	public Result game(String name, String version) {
-		DemoUser user = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
-		Result session = ok(game.render("something", "went", "wrong"));
-		try {
-			if(version.equals("ng")) {
-				session = createNgGame(name);
-			} else {
-				session = createGame(name);
-			}
-		} catch(InterruptedException ex) { }
-		return session;
-	}
 
 	public Result gobang() {
 		return ok(gobang.render("GoBang", gobangMain.render(), "1", new ArrayList<String>(gameControllerMap.keySet())));
@@ -79,23 +62,18 @@ public class Application extends Controller {
 	    return ok(gobang.render("GoBang", gobangAbout.render(), "4", new ArrayList<String>(gameControllerMap.keySet())));
 	}
 
-//    @SecuredAction
-//    public Result goToChatRoom(String roomName){
-//        DemoUser user = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
-//        if (availableLobbies.containsKey(roomName)) {
-//            availableLobbies.put(roomName, 2);
-//        } else {
-//            availableLobbies.put(roomName, 1);
-//        }
-//        return chat.chatRoom(user.main.fullName().get(), roomName);
-//    }
-
     @SecuredAction
     public Result quitGame(String roomName) {
         System.out.println("Player left the game");
         gameControllerMap.remove(roomName);
         roomPlayerMap.remove(roomName);
         return ok();
+    }
+
+    public static void quit1Player(String roomName) {
+        System.out.println("Player left the game");
+        gameControllerMap.remove(roomName);
+        roomPlayerMap.remove(roomName);
     }
 
     @SecuredAction
@@ -155,7 +133,7 @@ public class Application extends Controller {
                 DemoUser player1 = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
                 System.out.println("Player 1 is: " + player1.main.fullName());
                 IGbLogic controller = new GbLogic();
-                WebSocketController wsController = new WebSocketController(controller, player1);
+                WebSocketController wsController = new WebSocketController(controller, player1, roomName);
                 System.out.println("Mapping Room and Players");
                 gameControllerMap.put(roomName, wsController);
 
@@ -203,7 +181,7 @@ public class Application extends Controller {
     			DemoUser player1 = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
     			System.out.println("Player 1 is: " + player1.main.fullName());
     			IGbLogic controller = new GbLogic();
-    			WebSocketController wsController = new WebSocketController(controller, player1);
+    			WebSocketController wsController = new WebSocketController(controller, player1, roomName);
     			System.out.println("Mapping Room and Players");
     			gameControllerMap.put(roomName, wsController);
     			

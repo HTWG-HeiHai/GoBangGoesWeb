@@ -34,40 +34,10 @@ goBangApp.controller('GoBangCtrl', function($scope, $http, $websocket) {
 		$scope.tokenclicked = function(id) {
 			jsonCommand = {"command": id};
 			Server.send(JSON.stringify(jsonCommand));
-//			$http.get('/json/set/' + id.split('_')[0] + '/' + id.split('_')[1]).success(function(data) {
-//				$scope.field = data.field
-//				$scope.p1wins = data.p1wins
-//				$scope.p2wins = data.p2wins
-//				$scope.current = data.current
-//				$scope.status = data.status
-//				$scope.cplayer = 'Player1'
-//				if(data.current == 'blue') {
-//					$scope.cplayer = 'Player2'
-//				}
-//				if(data.status == 'g') {
-//					$scope.winner = 'Player2'
-//					if(data.current == 'blue') {
-//						$scope.winner = 'Player1'
-//					}
-//
-//					$(".bs-winner-modal-sm").modal("show");
-//				}
-//			});
 		}
 		$scope.command = function(command) {
 			jsonCommand = {"command": command};
 			Server.send(JSON.stringify(jsonCommand));			
-//			$http.get('/json/' + command).success(function(data) {
-//				$scope.field = data.field;
-//				$scope.p1wins = data.p1wins
-//				$scope.p2wins = data.p2wins
-//				$scope.current = data.current
-//				$scope.status = data.status
-//				$scope.cplayer = 'Player1'
-//				if(data.current == 'blue') {
-//					$scope.cplayer = 'Player2'
-//				}
-//			});
 		}
 		$http.get('user').success(function(user) {
 			$scope.userId = user
@@ -88,10 +58,13 @@ goBangApp.controller('GoBangCtrl', function($scope, $http, $websocket) {
 				var data = JSON.parse(message.data);
 				if(data.command == 'playerLeft') {
 					$http.get('/quitgame/' + $scope.room).success(function () {
+						console.log("the other player left")
+						alert("The other player left the game!")
 						window.location.replace("/")
 					});
+				} else if(data.command == 'stayAlive') {
+					console.log("staying alive")
 				} else {
-	//				console.log(data.field)
 					$scope.field = data.field
 					$scope.p1wins = data.p1wins
 					$scope.p2wins = data.p2wins
@@ -110,27 +83,7 @@ goBangApp.controller('GoBangCtrl', function($scope, $http, $websocket) {
 						$(".bs-winner-modal-sm").modal("show");
 					}
 				}
-////				var data = JSON.parse(field);
-//				$scope.field = data.field
-//				$scope.p1wins = data.p1wins
-//				$scope.p2wins = data.p2wins
-//				$scope.current = data.current
-//				$scope.status = data.status
-//				$scope.cplayer = 'Player1'
-//				if(data.current == 'blue') {
-//					$scope.cplayer = 'Player2'
-//				}
-//				if(data.status == 'g') {
-//					$scope.winner = 'Player2'
-//					if(data.current == 'blue') {
-//						$scope.winner = 'Player1'
-//					}
-//
-//					$(".bs-winner-modal-sm").modal("show");
-//				}
 			});
-
-//			Server.connect();
 		});
 		$http.get('room').success(function(data) {
 			$scope.room = data

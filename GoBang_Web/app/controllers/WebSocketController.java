@@ -43,11 +43,14 @@ public class WebSocketController implements IObserver {
     private Out<JsonNode> outPlayer1;
     private WebSocket<JsonNode> socketPlayer2;
     private Out<JsonNode> outPlayer2;
+    private String roomName;
+    private boolean running;
 
-
-    public WebSocketController(IGbLogic controller, DemoUser player1) {
+    public WebSocketController(IGbLogic controller, DemoUser player1, String roomName) {
         this.controller = controller;
         this.player1 = player1;
+        this.roomName = roomName;
+        this.running = true;
 
         socketPlayer1 = new WebSocket<JsonNode>() {
             @Override
@@ -75,10 +78,29 @@ public class WebSocketController implements IObserver {
                     @Override
                     public void invoke() throws Throwable {
                         System.out.println("Player1 has quit the game");
+                        running = false;
                         quitEvent(outPlayer2);
                     }
                 });
 
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while (running) {
+                            System.out.println("stay alive Player2");
+                            try {
+                                Thread.sleep(30000);
+                            } catch (InterruptedException e) {
+                            }
+                            ObjectMapper mapper = new ObjectMapper();
+                    		mapper.registerModule(new JsonOrgModule());
+                    		JSONObject json = new JSONObject();
+                    		json.append("command", "stayAlive");
+                            outPlayer1.write(mapper.valueToTree(json));
+                        }
+
+                    }
+                }).start();
             }
         };
 
@@ -110,10 +132,29 @@ public class WebSocketController implements IObserver {
                     @Override
                     public void invoke() throws Throwable {
                         System.out.println("Player2 has quit the game");
+                        running = false;
                         quitEvent(outPlayer1);
                     }
                 });
 
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while (running) {
+                            System.out.println("stay alive Player2");
+                            try {
+                                Thread.sleep(30000);
+                            } catch (InterruptedException e) {
+                            }
+                        	ObjectMapper mapper = new ObjectMapper();
+                    		mapper.registerModule(new JsonOrgModule());
+                    		JSONObject json = new JSONObject();
+                    		json.append("command", "stayAlive");
+                            outPlayer2.write(mapper.valueToTree(json));
+                        }
+
+                    }
+                }).start();
             }
         };
 
@@ -128,7 +169,9 @@ public class WebSocketController implements IObserver {
     		JSONObject json = new JSONObject();
     		json.append("command", "playerLeft");
             otherPlayer.write(mapper.valueToTree(json));
-        } catch (NullPointerException npe) {}
+        } catch (NullPointerException npe) {
+        	Application.quit1Player(this.roomName);
+        }
     }
 
     public void setPlayer2(DemoUser user) {

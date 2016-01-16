@@ -14,6 +14,9 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 		<link rel="stylesheet"
 		href="/css/gobang.css">
+		<script
+		src="/javascripts/main.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -40,6 +43,21 @@
                   		<li><a href="/game/@game">@game (Play)</a></li>
                   		<li><a href="/nggame/@game">@game (AngularJs)</a></li>
                   	}
+                  	<li id="newGames">
+						<label for="newGames">Create new game:</label>
+						<div class="input-group">
+						  <input type="text" class="form-control" id="playName" placeholder="Play">
+						  <span class="input-group-btn">
+					        <button id="playGame" class="btn btn-default" type="button"><i class="fa fa-arrow-right"></i></button>
+					      </span>
+					    </div>
+				        <div class="input-group">
+					      <input type="text" class="form-control" id="ngName" placeholder="AngularJs">
+						  <span class="input-group-btn">
+					        <button id="ngGame" class="btn btn-default" type="button"><i class="fa fa-arrow-right"></i></button>
+					      </span>
+						</div>
+					</li>
                   </ul>
                 </li>
               </ul>

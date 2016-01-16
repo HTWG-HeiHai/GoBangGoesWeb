@@ -27,17 +27,18 @@ $(function() {
 			xhttp.onreadystatechange = function() {
 				if (xhttp.readyState == 4 && xhttp.status == 200) {
 					console.log("the other player left")
-					alert("Other player left the game!")
+					alert("The other player left the game!")
 					window.location.replace("/")
 				}
 			}
+		} else if(jsonField.command == 'stayAlive') {
+			console.log("staying alive")
 		} else {
 			playerName = document.getElementById("userId").textContent
 			current = 'Player1'
 			if(jsonField.current == 'blue') {
 				current = 'Player2'
 			}
-	//		console.log(current == playerName)
 			document.getElementById("p1wins").textContent = jsonField.p1wins
 			document.getElementById("p2wins").textContent = jsonField.p2wins
 

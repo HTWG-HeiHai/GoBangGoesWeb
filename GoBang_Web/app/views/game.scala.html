@@ -23,7 +23,7 @@
     </head>
     <body>
     	<nav class="navbar navbar-default">
-		  <div class="container-fluid">
+		  <div class="container">
 		    <!-- Brand and toggle get grouped for better mobile display -->
 		    <div class="navbar-header">
 		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -62,38 +62,39 @@
 		    </div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
-		<div class="row">
-		  <div class="col-md-1">
-		  	Player 1<br>
-		  	<span id="p1wins">0</span> Wins
-		  </div>
-			<div class="col-md-5">
-			  <div class="modal fade bs-winner-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-			    <div class="modal-dialog modal-sm">
-			      <div class="modal-content">
-			      	<span id="winner"></span> wins!
-			      	<div class="modal-footer">
-					  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="command('newRound')">Rematch</button>
-				  	</div>
-			      </div>
-			    </div>
+		<div class="container">
+			<div class="row">
+			  <div class="col-md-1">
+			  	Player 1<br>
+			  	<span id="p1wins">0</span> Wins
 			  </div>
-			@for( a <-1 to 19){
-		      <div class="btn-group" role="group" aria-label="...">
-			  @for( b <-1 to 19){	
-			  	@defining(a + "_" + b) { tid=>
-		  		<button id=@tid type="button" class="btn btn-lg" style="border-color:black" onclick="changeField(@a,@b)"></button>
-		  		}
-			  }
+				<div class="col-md-10">
+				  <div class="modal fade bs-winner-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+				    <div class="modal-dialog modal-sm">
+				      <div class="modal-content">
+				      	<span id="winner"></span> wins!
+				      	<div class="modal-footer">
+						  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="command('newRound')">Rematch</button>
+					  	</div>
+				      </div>
+				    </div>
+				  </div>
+				@for( a <-1 to 19){
+			      <div class="btn-group gameField" role="group" style="margin-left: 15%;">
+				  @for( b <-1 to 19){	
+				  	@defining(a + "_" + b) { tid=>
+			  		<button id=@tid type="button" class="btn btn-lg" style="border-color: black;" onclick="command('@tid')"></button>
+			  		}
+				  }
+				  </div>
+				}
 			  </div>
-			  <br>			
-			}
-		  </div>
-		  <div class="col-md-1">
-		  	Player 2<br>
-		  	<span id="p2wins">0</span> Wins
-		  	<i id="undo_icon" class="fa fa-undo fa-3x"></i>
-		  </div>
+			  <div class="col-md-1">
+			  	Player 2<br>
+			  	<span id="p2wins">0</span> Wins
+			  	<i id="undo_icon" class="fa fa-undo fa-3x"></i>
+			  </div>
+			</div>
 		</div>
     </body>
 </html>

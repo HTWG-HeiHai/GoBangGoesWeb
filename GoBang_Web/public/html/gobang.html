@@ -108,7 +108,7 @@
              	<!--div class="statusline">Status: {{status}}</div--->
         
         		<div class="col-md-3">
-        			<i id="undo_icon" class="fa fa-undo fa-3x" ng-click='command("undo")'></i>
+        			<i id="undo_icon" class="fa fa-undo fa-3x" ng-click='command("undo")' ng-show="cplayer != name && status != 'g'"></i>
         		</div>
     		</div>
     	</div>

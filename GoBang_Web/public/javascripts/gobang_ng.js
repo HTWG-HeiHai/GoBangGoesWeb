@@ -69,8 +69,6 @@ goBangApp.controller('GoBangCtrl', function($scope, $http, $websocket) {
 				} else if(data.command == 'start') {
 					location.reload()
 					console.log("start game")
-				} else if(data.command == 'stayAlive') {
-					console.log("staying alive")
 				} else {
 					$scope.field = data.field
 					$scope.p1wins = data.p1wins

@@ -2,9 +2,9 @@ $(function() {
 	
 	Server = new FancyWebSocket('ws://' + location.host + '/websocket/' + $('#userId')[0].type);
 
-	$('.btn-lg').click(function() {
-		command(this.id);
-	});
+//	$('.btn-lg').click(function() {
+//		command(this.id);
+//	});
 	
 	$('#new_round').click(function() {
 		command("newRound");

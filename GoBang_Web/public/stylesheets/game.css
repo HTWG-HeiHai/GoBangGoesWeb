@@ -45,12 +45,22 @@
 
 #wins {
     text-align: center;
+    font-size: 18px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 #p1 {
     text-align: center;
+    color: ivory;
+    background-color: rgba(0,0,0,0.5);
+    font-size: 18px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 #p2 {
     text-align: center;
+    color: darkblue;
+    background-color: rgba(0,0,0,0.5);
+    font-size: 18px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }

@@ -45,12 +45,14 @@ public class WebSocketController implements IObserver {
     private Out<JsonNode> outPlayer2;
     private String roomName;
     private boolean running;
+    private boolean starting;
 
     public WebSocketController(IGbLogic controller, DemoUser player1, String roomName) {
         this.controller = controller;
         this.player1 = player1;
         this.roomName = roomName;
         this.running = true;
+        this.starting = false;
 
         socketPlayer1 = new WebSocket<JsonNode>() {
             @Override
@@ -61,7 +63,10 @@ public class WebSocketController implements IObserver {
                 	public void invoke(JsonNode json) {
                 		System.out.println("message incoming from Player1");
         				String command = json.get("command").textValue();
-        				if (command.equals("newRound")) {
+        				if (command.equals("enterGame")) {
+        					starting = true;
+        					startGame(out);
+        				} else if (command.equals("newRound")) {
         					startNewRound();
         				} else if (command.equals("newGame")) {
         					startNewGame();
@@ -77,9 +82,13 @@ public class WebSocketController implements IObserver {
                 in.onClose(new F.Callback0() {
                     @Override
                     public void invoke() throws Throwable {
-                        System.out.println("Player1 has quit the game");
-                        running = false;
-                        quitEvent(outPlayer2);
+                    	if(!starting) {
+	                        System.out.println("Player1 has quit the game");
+	                        running = false;
+	                        quitEvent(outPlayer2);
+                    	} else {
+                    		starting = false;
+                    	}
                     }
                 });
 
@@ -109,6 +118,7 @@ public class WebSocketController implements IObserver {
             public void onReady(In<JsonNode> in, Out<JsonNode> out) {
                 System.out.println("Init Socket for Player2");
                 outPlayer2 = out;
+                
                 in.onMessage(new Callback<JsonNode>() {
                 	public void invoke(JsonNode json) {
                 		System.out.println("message incoming from Player2");
@@ -140,17 +150,22 @@ public class WebSocketController implements IObserver {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        ObjectMapper mapper = new ObjectMapper();
+                		mapper.registerModule(new JsonOrgModule());
+                		JSONObject json = new JSONObject();
+                		json.append("command", "enterGame");
+                        outPlayer1.write(mapper.valueToTree(json));
                         while (running) {
                             System.out.println("stay alive Player2");
                             try {
                                 Thread.sleep(30000);
                             } catch (InterruptedException e) {
                             }
-                        	ObjectMapper mapper = new ObjectMapper();
-                    		mapper.registerModule(new JsonOrgModule());
-                    		JSONObject json = new JSONObject();
-                    		json.append("command", "stayAlive");
-                            outPlayer2.write(mapper.valueToTree(json));
+                        	ObjectMapper mapper2 = new ObjectMapper();
+                    		mapper2.registerModule(new JsonOrgModule());
+                    		JSONObject json2 = new JSONObject();
+                    		json2.append("command", "stayAlive");
+                            outPlayer2.write(mapper2.valueToTree(json2));
                         }
 
                     }
@@ -172,6 +187,14 @@ public class WebSocketController implements IObserver {
         } catch (NullPointerException npe) {
         	Application.quit1Player(this.roomName);
         }
+    }
+
+    private void startGame(Out<JsonNode> player) {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new JsonOrgModule());
+		JSONObject json = new JSONObject();
+		json.append("command", "start");
+		player.write(mapper.valueToTree(json));
     }
 
     public void setPlayer2(DemoUser user) {

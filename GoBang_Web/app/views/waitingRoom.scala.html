@@ -1,0 +1,40 @@
+@(room: String)(userId :String)
+
+<!DOCTYPE html>
+
+<html ng-app>
+<head>
+<title>@room Waiting Room</title>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js"></script>
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<script src="/assets/javascripts/fancywebsocket.js"></script>
+<script src="/assets/javascripts/app.js"></script>	
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="jumbotron">
+			<div class="container">
+				<div class="row">
+					<div class=col-md-3></div>
+					<div class=col-md-6>
+						<h1>@room</h1>
+						<p><i class="fa fa-spinner fa-pulse fa-lg"></i></p>
+						<p>Waiting for opponent.</p>
+						<p>Please wait a moment ...</p>
+						<p><a class="btn btn-primary btn-lg" href="/quitgame/@room" role="button" id="userId" type=@userId>Leave game</a></p>
+					</div>
+					<div class=col-md-3></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

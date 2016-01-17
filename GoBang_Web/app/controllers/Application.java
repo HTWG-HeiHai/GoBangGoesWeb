@@ -67,7 +67,7 @@ public class Application extends Controller {
         System.out.println("Player left the game");
         gameControllerMap.remove(roomName);
         roomPlayerMap.remove(roomName);
-        return ok();
+        return redirect("/");
     }
 
     public static void quit1Player(String roomName) {
@@ -143,7 +143,7 @@ public class Application extends Controller {
                 System.out.println(gameControllerMap.toString());
                 System.out.println("init game ready");
 
-                return ok(game.render(player1.main.userId(), roomName, "Player1"));
+                return ok(waitingRoom.render(roomName, player1.main.userId()));
             }
         } finally {
             System.out.println("release create Game Mutex");
@@ -190,7 +190,7 @@ public class Application extends Controller {
     			System.out.println(roomPlayerMap.toString());
     			System.out.println(gameControllerMap.toString());
     			System.out.println("init game ready");
-    			return redirect("/gobang.html");
+    			return ok(waitingRoom.render(roomName, player1.main.userId()));
     		}
     	} finally {
     		System.out.println("release create Game Mutex");

@@ -33,6 +33,11 @@ $(function() {
 			}
 		} else if(jsonField.command == 'stayAlive') {
 			console.log("staying alive")
+		} else if(jsonField.command == 'enterGame') {
+			command("enterGame")
+		} else if(jsonField.command == 'start') {
+			location.reload()
+			console.log("start game")
 		} else {
 			playerName = document.getElementById("userId").textContent
 			current = 'Player1'

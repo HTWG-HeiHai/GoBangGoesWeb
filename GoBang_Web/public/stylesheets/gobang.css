@@ -1,20 +1,30 @@
-li {
-    border: 2px groove #191970;
+li[role=mitem] {
+    border: 2px solid #aaaaaa;
+    border-radius: 60px;
 } 
 
 body {
-    background-color: black;
+    background-color: #151515;
 }
 
 p {
-    color:orange;
+    color:#DA6523;
+    font-size: 120%;
+    font-family: "Times New Roman", Times, serif;
+}
+
+p[role=citem]{
+    color:#000000;
 }
 
 .nav>li>a:hover,
 .nav>li>a:focus {
-    background-color: #696969;
-    text-decoration: underline;
+    background-color: #000000;
+    border-radius: 60px;
 }
-.navbar #nav > .active > a {
-    color: #696969;
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active
+{
+    background-color: #000000;
+    border-radius: 60px;
 }

@@ -17,6 +17,9 @@
 		<script
 		src="/javascripts/main.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		
+		<link rel="stylesheet/less" type="text/css" href="styles.less">
+		<script src="less.js" type="text/javascript"></script>
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -35,7 +38,6 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Start game <span class="sr-only">(current)</span></a></li>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Join game <span class="caret"></span></a>
                   <ul class="dropdown-menu">
@@ -77,10 +79,10 @@
 	        <div class="row">
 	            <div class="col-md-3">
 	                    <ul class="nav nav-pills nav-stacked">
-	                        <li role="presentation" ng-class="{ active: @choice == '1' }"><a href="gobang"><p>Home</p></a></li>
-	                        <li role="presentation" ng-class="{ active: @choice == '2' }"><a href="game"><p>Game</p></a></li>
-	                        <li role="presentation" ng-class="{ active: @choice == '3' }"><a href="help"><p>Help</p></a></li>
-	                        <li role="presentation" ng-class="{ active: @choice == '4' }"><a href="about"><p>About</p></a></li>
+	                        <li role="mitem" ng-class="{ active: @choice == '1' }"><a href="gobang"><p>Home</p></a></li>
+	                        <li role="mitem" ng-class="{ active: @choice == '2' }"><a href="game"><p>Game</p></a></li>
+	                        <li role="mitem" ng-class="{ active: @choice == '3' }"><a href="help"><p>Help</p></a></li>
+	                        <li role="mitem" ng-class="{ active: @choice == '4' }"><a href="about"><p>About</p></a></li>
 	                    </ul>
 	            </div>
 	            <div class="col-md-9">

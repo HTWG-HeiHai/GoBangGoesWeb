@@ -3,101 +3,112 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <head>
-        <title>GoBang Turn</title>
-        
-        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-		<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<head>
+<title>GoBang Turn</title>
 
-        <!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-		
-		<!-- Optional theme -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
-		
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-		<script src="/assets/javascripts/fancywebsocket.js"></script>
-		<script src="/assets/javascripts/app.js"></script>
-		<link rel="stylesheet" href="/css/gobang.css">
-		<link rel="stylesheet" href="/css/game.css">
-    </head>
-    <body>
-    	<nav class="navbar navbar-default">
-		  <div class="container">
-		    <!-- Brand and toggle get grouped for better mobile display -->
-		    <div class="navbar-header">
-		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-		        <span class="sr-only">Toggle navigation</span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-		      </button>
-		      <a class="navbar-brand" href="/gobang">GoBang!</a>
-		    </div>
-		
-		    <!-- Collect the nav links, forms, and other content for toggling -->
-		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		      <ul class="nav navbar-nav">
-		        <li><a id="new_game" href="#">New Game</a></li>
-		        <li><a id="new_round" href="#">New Round</a></li>
-		        <li class="dropdown">
-		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Options <span class="caret"></span></a>
-		          <ul class="dropdown-menu">
-		            <li><a href="#">Action</a></li>
-		            <li><a href="#">Another action</a></li>
-		            <li><a href="#">Something else here</a></li>
-		            <li role="separator" class="divider"></li>
-		            <li><a href="#">Separated link</a></li>
-		            <li role="separator" class="divider"></li>
-		            <li><a href="#">One more separated link</a></li>
-		          </ul>
-		        </li>
-		        <li><a href="#">Help</a></li>
-		      </ul>
-     			<ul class="nav navbar-nav navbar-right">
-     				<li><a href="#">Game Session: <span id="room">@room</span></a></li>
-     				<li><a id="player" href="#">@player</a></li>
-     				<li><a id="userId" type=@userId href="#">@name</a></li>
- 					<li><a href="/logout">Logout</a></li>
-    			</ul>
-		    </div><!-- /.navbar-collapse -->
-		  </div><!-- /.container-fluid -->
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<script src="/assets/javascripts/fancywebsocket.js"></script>
+<script src="/assets/javascripts/app.js"></script>
+<link rel="stylesheet" href="/css/gobang.css">
+<link rel="stylesheet" href="/css/game.css">
+</head>
+<body>
+	<div class="page-wrapper">
+		<nav class="navbar navbar-default">
+			<div class="container">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+						aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/gobang">GoBang!</a>
+				</div>
+	
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li><a id="new_round" href="#">New Round</a></li>
+						<li><a href="#">Help</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="#">Game Session: <span id="room">@room</span></a></li>
+						<li><a id="player" href="#">@player</a></li>
+						<li><a id="userId" type=@userId href="#">User: @name</a></li>
+						<!--  					<li><a href="/logout">Logout</a></li> -->
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
 		</nav>
 		<div class="container">
 			<div class="row">
-			  <div class="col-md-1">
-			  	Player 1<br>
-			  	<span id="p1wins">0</span> Wins
-			  </div>
+				<div class="col-md-1"></div>
 				<div class="col-md-10">
-				  <div class="modal fade bs-winner-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-				    <div class="modal-dialog modal-sm">
-				      <div class="modal-content">
-				      	<span id="winner"></span> wins!
-				      	<div class="modal-footer">
-						  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="command('newRound')">Rematch</button>
-					  	</div>
-				      </div>
-				    </div>
-				  </div>
-				@for( a <-1 to 19){
-			      <div class="btn-group gameField" role="group" style="margin-left: 15%;">
-				  @for( b <-1 to 19){	
-				  	@defining(a + "_" + b) { tid=>
-			  		<button id=@tid type="button" class="btn btn-lg" style="border-color: black;" onclick="command('@tid')"></button>
-			  		}
-				  }
-				  </div>
-				}
-			  </div>
-			  <div class="col-md-1">
-			  	Player 2<br>
-			  	<span id="p2wins">0</span> Wins
-			  	<i id="undo_icon" class="fa fa-undo fa-3x"></i>
-			  </div>
+					<div id="gamefield" class="panel panel-default">
+						<div id="statusline" class="panel-heading">
+							<div class="row">
+								<div class="col-md-5">
+									<div id="p1" class="well well-sm">
+										<b>Player 1</b>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div id="wins" class="well well-sm">
+										<b><span id="p1wins">0</span> : <span id="p2wins">0</span></b>
+									</div>
+									<div class="modal fade bs-winner-modal-sm" tabindex="-1"
+										role="dialog" aria-labelledby="mySmallModalLabel">
+										<div class="modal-dialog modal-sm">
+											<div class="modal-content">
+												<div class="modal-footer">
+													<p>
+														<span id="winner"></span> wins!
+													</p>
+													<button type="button" class="btn btn-default"
+														data-dismiss="modal" onclick="command('newRound')">Rematch</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-5">
+									<div id="p2" class="well well-sm">
+										<b>Player 2</b>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel-body">
+						@for( a <-1 to 19){
+					      <div class="btn-group gameField" role="group" style="margin-left: 15%;">
+						  @for( b <-1 to 19){	
+						  	@defining(a + "_" + b) { tid=>
+					  		<button id=@tid type="button" class="token" onclick="command('@tid')"></button>
+					  		}
+						  }
+						  </div>
+						}
+						</div>
+					</div>
+				</div>
+				<div class="col-md-1">
+					<i id="undo_icon" class="fa fa-undo fa-3x"></i>
+				</div>
 			</div>
 		</div>
-    </body>
+	</div>
+</body>
 </html>

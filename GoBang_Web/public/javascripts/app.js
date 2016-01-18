@@ -35,16 +35,28 @@ $(function() {
 			current = 'Player1'
 			if(jsonField.current == 'blue') {
 				current = 'Player2'
+				$('#p1').css('border-style', 'none');
+				$('#p2').css('border-style', 'solid');
+			} else {
+				$('#p1').css('border-style', 'solid');
+				$('#p2').css('border-style', 'none');
+			}
+			if(current == document.getElementById("player").textContent) {
+				$('#undo_icon').css('visibility', 'hidden');
+			} else {
+				$('#undo_icon').css('visibility', 'visible');
 			}
 			document.getElementById("p1wins").textContent = jsonField.p1wins
 			document.getElementById("p2wins").textContent = jsonField.p2wins
 
 			for(var i = 0; i < jsonField.field.length; ++i) {
 				for(var j = 0; j < jsonField.field.length; ++j) {
-					if(jsonField.field[i][j].name != 'none') {
-						updateField(jsonField.field[i][j].id, jsonField.field[i][j].name);
+					if(jsonField.field[i][j].name == 'blue') {
+						updateField(jsonField.field[i][j].id, '#151515');
+					} else if(jsonField.field[i][j].name == 'black') {
+							updateField(jsonField.field[i][j].id, 'ivory');
 					} else {
-						updateField(jsonField.field[i][j].id, 'white');
+						updateField(jsonField.field[i][j].id, 'rgba(0, 0, 0, 0.1)');
 					}
 					if(current != playerName || jsonField.status == 'g') {
 						$('#' + jsonField.field[i][j].id).prop('disabled', true);
@@ -54,10 +66,13 @@ $(function() {
 				}
 			}
 			if(jsonField.status == 'g') {
+				$('#undo_icon').css('visibility', 'hidden');
 				winner = 'Player2'
 				if(jsonField.current == 'blue') {
 					winner = 'Player1'
 				}
+				$('#p1').css('border-style', 'none');
+				$('#p2').css('border-style', 'none');
 				document.getElementById("winner").textContent = winner
 				$(".bs-winner-modal-sm").modal("show");
 			}
@@ -65,11 +80,8 @@ $(function() {
 	});
 
 	Server.connect();
+	setTimeout(function(){command("newRound")}, 100);
 });
-
-var changeField = function(x, y) {
-
-};
 
 var Server;
 

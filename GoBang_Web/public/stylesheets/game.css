@@ -36,7 +36,7 @@
 }
 
 .token .blue {
-	background-color: darkblue;
+	background-color: #151515;
 }
 
 .game {
@@ -47,20 +47,24 @@
     text-align: center;
     font-size: 18px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    background-color: rgba(148, 111, 48, 0.66);
+    border-color: black;
 }
 
 #p1 {
     text-align: center;
     color: ivory;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(148, 111, 48, 0.66);
+    border-color: ivory;
     font-size: 18px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 #p2 {
     text-align: center;
-    color: darkblue;
-    background-color: rgba(0,0,0,0.5);
+    color: #151515;
+    background-color: rgba(148, 111, 48, 0.66);
+    border-color: #151515;
     font-size: 18px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }

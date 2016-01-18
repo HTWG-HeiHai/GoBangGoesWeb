@@ -46,6 +46,7 @@ public class WebSocketController implements IObserver {
     private String roomName;
     private boolean running;
     private boolean starting;
+    private boolean isFull = false;
 
     public WebSocketController(IGbLogic controller, DemoUser player1, String roomName) {
         this.controller = controller;
@@ -81,7 +82,7 @@ public class WebSocketController implements IObserver {
                 });
                 in.onClose(new F.Callback0() {
                     @Override
-                    public void invoke() throws Throwable {
+                    public void invoke() throws Throwable {//sleep einbauen
                     	if(!starting) {
 	                        System.out.println("Player1 has quit the game");
 	                        running = false;
@@ -118,6 +119,7 @@ public class WebSocketController implements IObserver {
             public void onReady(In<JsonNode> in, Out<JsonNode> out) {
                 System.out.println("Init Socket for Player2");
                 outPlayer2 = out;
+                isFull = true;
                 
                 in.onMessage(new Callback<JsonNode>() {
                 	public void invoke(JsonNode json) {
@@ -201,6 +203,10 @@ public class WebSocketController implements IObserver {
         this.player2 = user;
     }
 
+    public boolean isFull() {
+        return isFull;
+    }
+    
     public DemoUser getPlayer1() {
         return player1;
     }

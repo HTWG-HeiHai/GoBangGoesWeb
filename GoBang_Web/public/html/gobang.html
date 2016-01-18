@@ -79,10 +79,10 @@
         		        <div id="statusline" class="panel-heading">
         		            <div class="row">
         		                <div class="col-md-5">
-        		                    <div id="p1" class="well well-sm">Player 1</div>
+        		                    <div id="p1" class="well well-sm"><b>Player 1</b></div>
         		                </div>
         		                <div class="col-md-2">
-        		                    <div id="wins" class="well well-sm">{{p1wins}} : {{p2wins}}</div>
+        		                    <div id="wins" class="well well-sm"><b>{{p1wins}} : {{p2wins}}</b></div>
         		                    <div class="modal fade bs-winner-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 								        <div class="modal-dialog modal-sm">
 								            <div class="modal-content">
@@ -95,7 +95,7 @@
 								    </div>
         		                </div>
         		                <div class="col-md-5">
-        		                    <div id="p2" class="well well-sm">Player 2</div>
+        		                    <div id="p2" class="well well-sm"><b>Player 2</b></div>
         		                </div>
         		            </div>
         		        </div>
@@ -104,9 +104,6 @@
         		        </div>
         		    </div>
         		</div>
-        
-             	<!--div class="statusline">Status: {{status}}</div--->
-        
         		<div class="col-md-3">
         			<i id="undo_icon" class="fa fa-undo fa-3x" ng-click='command("undo")' ng-show="cplayer != name && status != 'g'"></i>
         		</div>

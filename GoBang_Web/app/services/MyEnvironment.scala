@@ -27,12 +27,12 @@ class MyEnvironment extends RuntimeEnvironment.Default {
   override lazy val providers = ListMap(
     //See securesocial.conf for reason why deactivated
     //include(new FacebookProvider(routes, cacheService, oauth2ClientFor(FacebookProvider.Facebook))),
-    include(new GitHubProvider(routes, cacheService, oauth2ClientFor(GitHubProvider.GitHub))),
-    include(new GoogleProvider(routes, cacheService, oauth2ClientFor(GoogleProvider.Google))),
+    include(new GitHubProvider(routes, cacheService, oauth2ClientFor(GitHubProvider.GitHub)))
+//    include(new GoogleProvider(routes, cacheService, oauth2ClientFor(GoogleProvider.Google))),
     // oauth 1 client providers
-    include(new TwitterProvider(routes, cacheService, oauth1ClientFor(TwitterProvider.Twitter))),
+//    include(new TwitterProvider(routes, cacheService, oauth1ClientFor(TwitterProvider.Twitter))),
     // username password
-    include(new UsernamePasswordProvider[U](userService, avatarService, viewTemplates, passwordHashers))
+//    include(new UsernamePasswordProvider[U](userService, avatarService, viewTemplates, passwordHashers))
   )
   override val userService: UserService[U] = new InMemoryUserService()
 }

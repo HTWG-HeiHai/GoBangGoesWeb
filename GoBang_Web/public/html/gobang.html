@@ -3,7 +3,6 @@
 <html ng-app="goBangApp" lang="en">
 <head>
 <title>GoBang</title>
-<link rel="stylesheet" href="/css/game.css">
 
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -15,12 +14,13 @@
 	src="http://cdn.rawgit.com/gdi2290/angular-websocket/v1.0.9/angular-websocket.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-</script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <script src="/assets/javascripts/fancywebsocket.js"></script>	
 <script type="text/javascript" src="/gobang_ng.js"></script>
+<link rel="stylesheet" href="/css/gobang.css">
+<link rel="stylesheet" href="/css/game.css">
 </head>
 <body ng-controller="GoBangCtrl">
     <div class="page-wrapper">
@@ -42,20 +42,7 @@
     			<div class="collapse navbar-collapse"
     				id="bs-example-navbar-collapse-1">
     				<ul class="nav navbar-nav">
-    					<li><a href="#" ng-click='command("newGame")'>New Game</a></li>
     					<li><a id="new_round" href="#" ng-click='command("newRound")'>New Round</a></li>
-    					<li class="dropdown"><a href="#" class="dropdown-toggle"
-    						data-toggle="dropdown" role="button" aria-haspopup="true"
-    						aria-expanded="false">Options <span class="caret"></span></a>
-    						<ul class="dropdown-menu">
-    							<li><a href="#">Action</a></li>
-    							<li><a href="#">Another action</a></li>
-    							<li><a href="#">Something else here</a></li>
-    							<li role="separator" class="divider"></li>
-    							<li><a href="#">Separated link</a></li>
-    							<li role="separator" class="divider"></li>
-    							<li><a href="#">One more separated link</a></li>
-    						</ul></li>
     					<li><a href="#">Help</a></li>
     				</ul>
     				<ul class="nav navbar-nav navbar-right">
@@ -69,17 +56,16 @@
     		<!-- /.container-fluid -->
     	</nav>
 
-        <div class="container-fluid">
+        <div class="container">
         	<div class="row">
-        		<div class="col-md-3">
+        		<div class="col-md-1">
         		</div>
-        
-        		<div class="col-md-6">
+        		<div class="col-md-10">
         		    <div id="gamefield" class="panel panel-default">
         		        <div id="statusline" class="panel-heading">
         		            <div class="row">
         		                <div class="col-md-5">
-        		                    <div id="p1" class="well well-sm"><b>Player 1</b></div>
+        		                    <div id="p1" class="well well-sm" ng-style="p1Style"><b>Player 1</b></div>
         		                </div>
         		                <div class="col-md-2">
         		                    <div id="wins" class="well well-sm"><b>{{p1wins}} : {{p2wins}}</b></div>
@@ -95,7 +81,7 @@
 								    </div>
         		                </div>
         		                <div class="col-md-5">
-        		                    <div id="p2" class="well well-sm"><b>Player 2</b></div>
+        		                    <div id="p2" class="well well-sm" ng-style="p2Style"><b>Player 2</b></div>
         		                </div>
         		            </div>
         		        </div>
@@ -104,8 +90,8 @@
         		        </div>
         		    </div>
         		</div>
-        		<div class="col-md-3">
-        			<i id="undo_icon" class="fa fa-undo fa-3x" ng-click='command("undo")' ng-show="cplayer != name && status != 'g'"></i>
+        		<div class="col-md-1">
+        			<i id="undo_icon" class="fa fa-undo fa-3x" ng-click='command("undo")' ng-if="cplayer != name && status != 'g'"></i>
         		</div>
     		</div>
     	</div>

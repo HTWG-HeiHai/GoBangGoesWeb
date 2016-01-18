@@ -30,6 +30,9 @@ goBangApp.controller('GoBangCtrl', function($scope, $http, $websocket) {
 		$scope.cplayer = 'Player1'
 		if(data.current == 'blue') {
 			$scope.cplayer = 'Player2'
+			$scope.p2Style = {'border-style': 'solid'}
+		} else {
+			$scope.p1Style = {'border-style': 'solid'}
 		}
 		$scope.tokenclicked = function(id) {
 			jsonCommand = {"command": id};
@@ -78,12 +81,19 @@ goBangApp.controller('GoBangCtrl', function($scope, $http, $websocket) {
 					$scope.cplayer = 'Player1'
 					if(data.current == 'blue') {
 						$scope.cplayer = 'Player2'
+						$scope.p1Style = {}
+						$scope.p2Style = {'border-style': 'solid'}
+					} else {
+						$scope.p1Style = {'border-style': 'solid'}
+						$scope.p2Style = {}
 					}
 					if(data.status == 'g') {
 						$scope.winner = 'Player2'
 						if(data.current == 'blue') {
 							$scope.winner = 'Player1'
 						}
+						$scope.p1Style = {}
+						$scope.p2Style = {}
 
 						$(".bs-winner-modal-sm").modal("show");
 					}

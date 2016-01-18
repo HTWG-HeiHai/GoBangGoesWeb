@@ -43,10 +43,14 @@
     margin-left: 12%;
 }
 
+#undo_icon {
+	cursor: pointer;
+}
+
 #wins {
     text-align: center;
     font-size: 18px;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: rgba(148, 111, 48, 0.66);
     border-style: none;
     color: black;
@@ -57,6 +61,8 @@
     color: ivory;
     background-color: rgba(148, 111, 48, 0.66);
     border-style: none;
+    border-width: medium;
+    border-color: ivory;
     font-size: 18px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
@@ -66,6 +72,8 @@
     color: #151515;
     background-color: rgba(148, 111, 48, 0.66);
     border-style: none;
+    border-width: medium;
+    border-color: #151515;
     font-size: 18px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }

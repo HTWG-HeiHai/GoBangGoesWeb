@@ -15,20 +15,26 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/gobang.css">
 <script src="/assets/javascripts/fancywebsocket.js"></script>
-<script src="/assets/javascripts/app.js"></script>	
+<script src="/assets/javascripts/app.js"></script>
 </head>
 <body>
 	<div class="container">
-		<div class="jumbotron" style="text-align: center;">
+		<div class="jumbotron">
 			<div class="row">
 				<div class=col-md-12>
-					<h1>@room</h1>
-					<p><i class="fa fa-spinner fa-pulse fa-3x"></i></p>
+					<h1 style="color: #777;">@room</h1>
+					<p>
+						<i class="fa fa-spinner fa-pulse fa-3x" style="color: ivory;"></i>
+					</p>
 					<p>Welcome @userName</p>
 					<p>Waiting for opponent to join your game.</p>
 					<p>Please wait a moment ...</p>
-					<p><a class="btn btn-primary btn-lg" href="/quitgame/@room" role="button" id="userId" type=@userId>Leave game</a></p>
+					<p>
+						<a class="btn btn-primary btn-lg" href="/quitgame/@room"
+							role="button" id="userId" type=@userId>Leave game</a>
+					</p>
 				</div>
 			</div>
 		</div>

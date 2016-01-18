@@ -127,7 +127,6 @@ public class WebSocketController implements IObserver {
         					startNewRound();
         				} else if (command.equals("undo")) {
         					undo();
-        					controller.removeToken();
         				} else {
         					int x = Integer.parseInt(command.split("_")[0]) - 1;
         					int y = Integer.parseInt(command.split("_")[1]) - 1;

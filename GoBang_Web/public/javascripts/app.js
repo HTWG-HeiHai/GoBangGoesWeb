@@ -1,17 +1,9 @@
 $(function() {
 	
 	Server = new FancyWebSocket('ws://' + location.host + '/websocket/' + $('#userId')[0].type);
-
-//	$('.btn-lg').click(function() {
-//		command(this.id);
-//	});
 	
 	$('#new_round').click(function() {
 		command("newRound");
-	});
-
-	$('#new_game').click(function() {
-		command("newGame");
 	});
 
 	$('#undo_icon').click(function() {
@@ -39,7 +31,7 @@ $(function() {
 			location.reload()
 			console.log("start game")
 		} else {
-			playerName = document.getElementById("userId").textContent
+			playerName = document.getElementById("player").textContent
 			current = 'Player1'
 			if(jsonField.current == 'blue') {
 				current = 'Player2'

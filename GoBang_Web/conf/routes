@@ -31,7 +31,6 @@ GET 	/player/:room 				controllers.Application.getPlayerName(room: String)
 # AngularJs
 GET     /json/set/:x/:y		    	controllers.Application.setToken(x: Int, y: Int)
 GET     /json/newround		    	controllers.Application.newRound()
-GET     /json/newgame		    	controllers.Application.newGame()
 GET     /nggame/:roomName 			controllers.Application.createNgGame(roomName: String)
 GET     /json/undo		    		controllers.Application.undo()
 GET 	/json/field 				controllers.Application.getJson()

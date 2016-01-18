@@ -1,4 +1,4 @@
-@(userId: String)(room: String)(name: String)
+@(userId: String)(room: String)(name: String)(player: String)
 
 <!DOCTYPE html>
 
@@ -56,6 +56,7 @@
 		      </ul>
      			<ul class="nav navbar-nav navbar-right">
      				<li><a href="#">Game Session: <span id="room">@room</span></a></li>
+     				<li><a id="player" href="#">@player</a></li>
      				<li><a id="userId" type=@userId href="#">@name</a></li>
  					<li><a href="/logout">Logout</a></li>
     			</ul>

@@ -69,8 +69,6 @@ public class WebSocketController implements IObserver {
         					startGame(out);
         				} else if (command.equals("newRound")) {
         					startNewRound();
-        				} else if (command.equals("newGame")) {
-        					startNewGame();
         				} else if (command.equals("undo")) {
         					undo();
         				} else {
@@ -127,8 +125,6 @@ public class WebSocketController implements IObserver {
         				String command = json.get("command").textValue();
         				if (command.equals("newRound")) {
         					startNewRound();
-        				} else if (command.equals("newGame")) {
-        					startNewGame();
         				} else if (command.equals("undo")) {
         					undo();
         					controller.removeToken();
@@ -222,32 +218,12 @@ public class WebSocketController implements IObserver {
         return socketPlayer2;
     }
 
-    public String getUIField() {
-    	String tField = tui.drawField();
-		tField = tField.replaceAll("\n", "<br>");
-		tField = tField.replaceAll(" ", "&nbsp;");
-        return tField;
-    }
-
-    public String getUIHead() {
-		String tHead = tui.pTurn();
-		tHead = tHead.replaceAll("\n", "<br>");
-        return tHead;
-    }
-
     public void set(int x, int y) {
     	controller.setToken(x, y);
     }
 
     public void undo() {
     	controller.removeToken();
-    }
-    
-    public Html startNewGame() {
-    	controller = new GbLogic();
-        System.out.println("Adding Observer");
-        controller.addObserver(this);
-        return game.render(getUIHead(), getUIField(), "");
     }
 
 	public void startNewRound() {

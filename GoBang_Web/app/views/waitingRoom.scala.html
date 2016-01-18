@@ -1,4 +1,4 @@
-@(room: String)(userId :String)
+@(room: String)(userId: String)(userName: String)
 
 <!DOCTYPE html>
 
@@ -19,19 +19,16 @@
 <script src="/assets/javascripts/app.js"></script>	
 </head>
 <body>
-	<div class="container-fluid">
-		<div class="jumbotron">
-			<div class="container">
-				<div class="row">
-					<div class=col-md-3></div>
-					<div class=col-md-6>
-						<h1>@room</h1>
-						<p><i class="fa fa-spinner fa-pulse fa-5x"></i></p>
-						<p>Waiting for opponent.</p>
-						<p>Please wait a moment ...</p>
-						<p><a class="btn btn-primary btn-lg" href="/quitgame/@room" role="button" id="userId" type=@userId>Leave game</a></p>
-					</div>
-					<div class=col-md-3></div>
+	<div class="container">
+		<div class="jumbotron" style="text-align: center;">
+			<div class="row">
+				<div class=col-md-12>
+					<h1>@room</h1>
+					<p><i class="fa fa-spinner fa-pulse fa-3x"></i></p>
+					<p>Welcome @userName</p>
+					<p>Waiting for opponent to join your game.</p>
+					<p>Please wait a moment ...</p>
+					<p><a class="btn btn-primary btn-lg" href="/quitgame/@room" role="button" id="userId" type=@userId>Leave game</a></p>
 				</div>
 			</div>
 		</div>

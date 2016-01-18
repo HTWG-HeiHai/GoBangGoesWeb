@@ -48,14 +48,15 @@
     font-size: 18px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     background-color: rgba(148, 111, 48, 0.66);
-    border-color: black;
+    border-style: none;
+    color: black;
 }
 
 #p1 {
     text-align: center;
     color: ivory;
     background-color: rgba(148, 111, 48, 0.66);
-    border-color: ivory;
+    border-style: none;
     font-size: 18px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
@@ -64,7 +65,7 @@
     text-align: center;
     color: #151515;
     background-color: rgba(148, 111, 48, 0.66);
-    border-color: #151515;
+    border-style: none;
     font-size: 18px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }

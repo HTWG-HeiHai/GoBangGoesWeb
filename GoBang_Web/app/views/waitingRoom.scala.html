@@ -1,4 +1,4 @@
-@(room: String)(userId: String)(userName: String)
+@(room: String)(userId: String)(user: services.DemoUser)
 
 <!DOCTYPE html>
 
@@ -28,7 +28,7 @@
 					<p>
 						<i class="fa fa-spinner fa-pulse fa-3x" style="color: ivory;"></i>
 					</p>
-					<p>Welcome @userName</p>
+					<p>Welcome @user.main.fullName.getOrElse("Anonymous") <img src="@user.main.avatarUrl.getOrElse("/images/favicon.png")" alt="" width="37px" height="37px"/></p>
 					<p>Waiting for opponent to join your game.</p>
 					<p>Please wait a moment ...</p>
 					<p>

@@ -116,7 +116,7 @@ public class Application extends Controller {
                 DemoUser newPlayer = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
                 if(players.getPlayer1().equals(newPlayer) ) {
                     System.out.println("redirecting Player1");
-                    return ok(game.render(newPlayer.main.userId(), roomName, newPlayer.main.fullName().get(), "Player1"));
+                    return ok(game.render(newPlayer.main.userId(), roomName, newPlayer, "Player1"));
                 }
                 try {
                     if(players.getPlayer2().equals(newPlayer)) {
@@ -129,7 +129,7 @@ public class Application extends Controller {
                 players.addPlayer2(newPlayer);
                 System.out.println("Player 2 is: " + newPlayer.main.fullName());
                 gameControllerMap.get(roomName).setPlayer2(newPlayer);
-                return ok(game.render(newPlayer.main.userId(), roomName, newPlayer.main.fullName().get(), "Player2"));
+                return ok(game.render(newPlayer.main.userId(), roomName, newPlayer, "Player2"));
             } else {
                 System.out.println("Creating a new Game Controller");
                 DemoUser player1 = (DemoUser) ctx().args.get(SecureSocial.USER_KEY);
@@ -145,7 +145,7 @@ public class Application extends Controller {
                 System.out.println(gameControllerMap.toString());
                 System.out.println("init game ready");
 
-                return ok(waitingRoom.render(roomName, player1.main.userId(), player1.main.fullName().get()));
+                return ok(waitingRoom.render(roomName, player1.main.userId(), player1));
             }
         } finally {
             System.out.println("release create Game Mutex");
@@ -194,7 +194,7 @@ public class Application extends Controller {
     			System.out.println(roomPlayerMap.toString());
     			System.out.println(gameControllerMap.toString());
     			System.out.println("init game ready");
-    			return ok(waitingRoom.render(roomName, player1.main.userId(), player1.main.fullName().get()));
+    			return ok(waitingRoom.render(roomName, player1.main.userId(), player1));
     		}
     	} finally {
     		System.out.println("release create Game Mutex");

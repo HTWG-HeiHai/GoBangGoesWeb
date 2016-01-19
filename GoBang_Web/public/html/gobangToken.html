@@ -1,4 +1,4 @@
-<div class="token" ng-repeat="token in row">
-	<button class="token {{token.name}}" id="{{token.id}}" ng-click="tokenclicked(token.id)" ng-disabled="cplayer != name || status == 'g'">
+<div class="tokens" ng-repeat="tokens in row">
+	<button class="token {{tokens.name}}" id="{{tokens.id}}" ng-click="tokenclicked(tokens.id)" ng-disabled="cplayer != name || status == 'g'">
 	</button>
 </div>

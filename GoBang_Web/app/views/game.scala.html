@@ -1,4 +1,4 @@
-@(userId: String)(room: String)(name: String)(player: String)
+@(userId: String)(room: String)(user: services.DemoUser)(player: String)
 
 <!DOCTYPE html>
 
@@ -45,8 +45,8 @@
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="#">Game Session: <span id="room">@room</span></a></li>
 						<li><a id="player" href="#">@player</a></li>
-						<li><a id="userId" type=@userId href="#">User: @name</a></li>
-						<!--  					<li><a href="/logout">Logout</a></li> -->
+						<li><a id="userId" type=@userId href="#">User: @user.main.fullName.getOrElse("Anonymous")</a></li>
+						<li><img src="@user.main.avatarUrl.getOrElse("/images/favicon.png")" alt="" width="37px" height="37px"/></li>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -93,11 +93,13 @@
 						</div>
 						<div class="panel-body">
 						@for( a <-1 to 19){
-					      <div class="btn-group gameField" role="group" style="margin-left: 15%;">
-						  @for( b <-1 to 19){	
+					      <div class="gameField">
+						  @for( b <-1 to 19){
+						  	<div class="tokens">
 						  	@defining(a + "_" + b) { tid=>
 					  		<button id=@tid type="button" class="token" onclick="command('@tid')"></button>
 					  		}
+					  		</div>
 						  }
 						  </div>
 						}

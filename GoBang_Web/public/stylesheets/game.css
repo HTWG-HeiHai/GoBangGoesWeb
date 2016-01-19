@@ -16,31 +16,38 @@
     background-size: cover;
 }
 
-.token {
-	display: inline-block;
-	width: 37px;
-	height: 37px;
-	position: relative;
-	bottom: 2px;
-	border-radius: 10px;
-	border-style: solid;
-	border-color: #846A4A;
+.panel-body {
+	text-align: center;
 }
 
-.token .none {
+.tokens {
+	min-width: 13px;
+	width: 4.1%;
+	display: inline-block;
+}
+
+.token {
+	display: inline-block;
+	width: 100%;
+	padding-top: 84%;
+	position: relative;
+	bottom: 2px;
+	border-radius: 28%;
+	border-style: solid;
+	border-color: #846A4A;
+	background: rgba(0,0,0,0.1);
+}
+
+.token.none {
     background: rgba(0,0,0,0.1);
 }
 
-.token .black {
+.token.black {
 	background-color: ivory;
 }
 
-.token .blue {
+.token.blue {
 	background-color: #151515;
-}
-
-.game {
-    margin-left: 12%;
 }
 
 #undo_icon {

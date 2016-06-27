@@ -3,8 +3,8 @@ package controllers;
 
 import de.htwg.gobang.controller.IGbLogic;
 import de.htwg.gobang.controller.impl.GbLogic;
-import de.htwg.gobang.entities.IGameToken;
-import de.htwg.gobang.game.GoBangGame;
+import de.htwg.gobang.model.IToken;
+import de.htwg.gobang.GoBangGame;
 import play.api.i18n.DefaultMessagesApi;
 import play.libs.F;
 import play.libs.F.Callback;
@@ -15,8 +15,8 @@ import play.mvc.WebSocket.Out;
 import play.twirl.api.Html;
 import securesocial.core.java.SecuredAction;
 import services.DemoUser;
-import de.htwg.gobang.observer.IObserver;
-import de.htwg.gobang.ui.TUI;
+import de.htwg.gobang.util.observer.IObserver;
+import de.htwg.gobang.view.TUI;
 import views.html.*;
 
 import java.util.Collections;
@@ -239,10 +239,10 @@ public class WebSocketController implements IObserver {
 		JSONObject json = new JSONObject();
 		JSONArray f = new JSONArray();
 		int i = 1;
-		for (IGameToken[] row : controller.getField()) {
+		for (IToken[] row : controller.getField()) {
 			JSONArray r = new JSONArray();
 			int j = 1;
-			for (IGameToken token : row) {
+			for (IToken token : row) {
 				JSONObject t = new JSONObject();
 				t.put("id", i + "_" + j);
 				t.put("name", token.getName());
